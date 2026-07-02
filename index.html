@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portal pembelajaran MikroTik dan Fiber Optik untuk siswa SMK kelas X, XI, dan XII. Materi teori, praktik, evaluasi, dan proyek." />
+  <meta name="keywords" content="MikroTik, Fiber Optik, SMK, TKJ, TJKT, kelas 10, kelas 11, kelas 12, RouterOS, FTTH" />
+  <title>NetFiber Academy | MikroTik & Fiber Optik SMK</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --surface: #0d1b2d;
+      --surface-2: #12243a;
+      --card: #102238;
+      --text: #edf5ff;
+      --muted: #a9bbd0;
+      --primary: #32c7ff;
+      --primary-2: #6d7cff;
+      --accent: #25e0a3;
+      --warning: #ffd166;
+      --danger: #ff6b81;
+      --border: rgba(255,255,255,.11);
+      --shadow: 0 18px 45px rgba(0,0,0,.28);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(50,199,255,.15), transparent 28%),
+        radial-gradient(circle at left 30%, rgba(109,124,255,.13), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .container { width: min(1180px, 92%); margin: auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(7,17,31,.78);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .2px; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 13px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 8px 26px rgba(50,199,255,.24);
+    }
+    .brand-mark svg { width: 24px; height: 24px; }
+    .brand small { display: block; color: var(--muted); font-size: 11px; font-weight: 600; }
+
+    .nav-links { display: flex; gap: 18px; color: var(--muted); font-size: 14px; }
+    .nav-links a:hover { color: var(--text); }
+
+    .hero { padding: 86px 0 54px; }
+    .hero-grid { display: grid; grid-template-columns: 1.18fr .82fr; gap: 42px; align-items: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 999px;
+      background: rgba(37,224,163,.1); color: var(--accent);
+      border: 1px solid rgba(37,224,163,.25); font-size: 13px; font-weight: 700;
+    }
+    h1 { font-size: clamp(2.55rem, 6vw, 5.25rem); line-height: 1.02; margin: 22px 0 20px; letter-spacing: -2.5px; }
+    .gradient-text { background: linear-gradient(90deg, var(--primary), #83e6ff, var(--accent)); -webkit-background-clip: text; color: transparent; }
+    .hero p { max-width: 760px; color: var(--muted); font-size: 1.05rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+    .btn {
+      border: 0; cursor: pointer; color: #06111d; font-weight: 800;
+      padding: 12px 17px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), #7fdcff);
+      box-shadow: 0 10px 25px rgba(50,199,255,.16);
+    }
+    .btn.secondary { color: var(--text); background: rgba(255,255,255,.06); border: 1px solid var(--border); box-shadow: none; }
+    .btn.danger { background: rgba(255,107,129,.12); color: #ffb2be; border: 1px solid rgba(255,107,129,.25); box-shadow: none; }
+
+    .hero-panel {
+      border: 1px solid var(--border); border-radius: 24px; padding: 24px;
+      background: linear-gradient(180deg, rgba(18,36,58,.9), rgba(9,22,38,.9));
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .hero-panel::after {
+      content: ""; position: absolute; width: 220px; height: 220px; border-radius: 50%;
+      background: rgba(50,199,255,.08); top: -90px; right: -70px;
+    }
+    .network-map { display: grid; gap: 16px; position: relative; z-index: 1; }
+    .node-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .node {
+      text-align: center; padding: 16px 10px; border-radius: 16px;
+      background: rgba(255,255,255,.045); border: 1px solid var(--border);
+    }
+    .node strong { display: block; margin-top: 8px; font-size: 13px; }
+    .node svg { width: 34px; height: 34px; color: var(--primary); }
+    .fiber-line { height: 4px; border-radius: 999px; background: linear-gradient(90deg, var(--primary), var(--accent), var(--warning)); box-shadow: 0 0 24px rgba(50,199,255,.45); }
+
+    .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 34px; }
+    .stat { padding: 16px; border: 1px solid var(--border); background: rgba(255,255,255,.035); border-radius: 15px; }
+    .stat b { font-size: 1.45rem; display: block; }
+    .stat span { font-size: 12px; color: var(--muted); }
+
+    section { padding: 58px 0; }
+    .section-head { display: flex; justify-content: space-between; gap: 20px; align-items: end; margin-bottom: 28px; }
+    .section-head h2 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.65rem); letter-spacing: -1px; }
+    .section-head p { color: var(--muted); max-width: 700px; margin: 8px 0 0; }
+
+    .toolbar {
+      display: grid; grid-template-columns: 1fr auto auto; gap: 12px;
+      padding: 14px; border: 1px solid var(--border); border-radius: 16px;
+      background: rgba(255,255,255,.035); margin-bottom: 24px;
+    }
+    .search {
+      width: 100%; color: var(--text); background: rgba(0,0,0,.2); border: 1px solid var(--border);
+      border-radius: 11px; padding: 11px 13px; outline: none;
+    }
+    .search:focus { border-color: rgba(50,199,255,.6); box-shadow: 0 0 0 3px rgba(50,199,255,.1); }
+
+    .tabs { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 26px; }
+    .tab {
+      padding: 10px 15px; border-radius: 999px; border: 1px solid var(--border);
+      color: var(--muted); background: rgba(255,255,255,.035); cursor: pointer; font-weight: 750;
+    }
+    .tab.active { background: linear-gradient(135deg, rgba(50,199,255,.2), rgba(109,124,255,.2)); color: var(--text); border-color: rgba(50,199,255,.45); }
+
+    .grade-panel { display: none; }
+    .grade-panel.active { display: block; }
+    .grade-banner {
+      display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+      padding: 24px; margin-bottom: 22px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(50,199,255,.09), rgba(109,124,255,.07));
+    }
+    .grade-banner h3 { margin: 0 0 7px; font-size: 1.55rem; }
+    .grade-banner p { margin: 0; color: var(--muted); }
+    .progress-ring { min-width: 120px; text-align: center; }
+    .progress-ring b { font-size: 1.8rem; color: var(--accent); }
+    .progress-ring span { display: block; color: var(--muted); font-size: 12px; }
+
+    .module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 17px; }
+    .module-card {
+      display: flex; flex-direction: column; min-height: 100%;
+      background: linear-gradient(180deg, rgba(16,34,56,.96), rgba(11,26,44,.96));
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      transition: .25s ease;
+    }
+    .module-card:hover { transform: translateY(-4px); border-color: rgba(50,199,255,.35); }
+    .module-card.hidden { display: none; }
+    .module-top { padding: 18px 18px 11px; display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+    .badge { font-size: 11px; font-weight: 800; padding: 5px 8px; border-radius: 999px; background: rgba(50,199,255,.1); color: var(--primary); border: 1px solid rgba(50,199,255,.22); }
+    .badge.fiber { color: var(--warning); background: rgba(255,209,102,.09); border-color: rgba(255,209,102,.2); }
+    .badge.project { color: var(--accent); background: rgba(37,224,163,.08); border-color: rgba(37,224,163,.2); }
+    .module-card h4 { margin: 0; font-size: 1.07rem; }
+    .module-body { padding: 0 18px 18px; flex: 1; }
+    .module-body p { color: var(--muted); font-size: 14px; margin: 0 0 11px; }
+    .module-body ul { margin: 0; padding-left: 18px; color: #d7e4f4; font-size: 13.5px; }
+    .module-body li + li { margin-top: 4px; }
+    .module-footer { padding: 13px 18px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; background: rgba(0,0,0,.12); }
+    .complete { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); font-size: 13px; cursor: pointer; }
+    .complete input { accent-color: var(--accent); }
+    .duration { color: var(--muted); font-size: 12px; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .info-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; background: rgba(255,255,255,.035); }
+    .info-card h3 { margin-top: 0; }
+    .info-card ul, .info-card ol { padding-left: 20px; color: var(--muted); }
+    .info-card li + li { margin-top: 7px; }
+
+    .quiz-wrap { display: grid; grid-template-columns: .36fr .64fr; gap: 20px; align-items: start; }
+    .quiz-nav { position: sticky; top: 95px; }
+    .quiz-box { border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; background: rgba(255,255,255,.035); }
+    .quiz-box h3 { margin-top: 0; }
+    .quiz-question { padding: 17px 0; border-top: 1px solid var(--border); }
+    .quiz-question:first-of-type { border-top: 0; }
+    .options { display: grid; gap: 9px; margin-top: 10px; }
+    .options label { display: block; padding: 10px 12px; border-radius: 11px; border: 1px solid var(--border); background: rgba(0,0,0,.12); cursor: pointer; }
+    .options label:hover { border-color: rgba(50,199,255,.4); }
+    .quiz-result { margin-top: 16px; padding: 12px; border-radius: 11px; background: rgba(37,224,163,.09); color: #bfffe8; display: none; }
+
+    .glossary { display: grid; grid-template-columns: repeat(4,1fr); gap: 13px; }
+    .term { border: 1px solid var(--border); border-radius: 14px; padding: 15px; background: rgba(255,255,255,.03); }
+    .term b { color: var(--primary); }
+    .term p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+
+    .note { padding: 16px 18px; border-left: 4px solid var(--warning); background: rgba(255,209,102,.08); border-radius: 10px; color: #ffe8aa; }
+    .empty-state { display: none; text-align: center; color: var(--muted); padding: 24px; border: 1px dashed var(--border); border-radius: 14px; }
+
+    footer { border-top: 1px solid var(--border); padding: 34px 0 46px; color: var(--muted); }
+    .footer-grid { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+    @media (max-width: 980px) {
+      .hero-grid, .quiz-wrap { grid-template-columns: 1fr; }
+      .module-grid { grid-template-columns: repeat(2,1fr); }
+      .glossary { grid-template-columns: repeat(2,1fr); }
+      .quiz-nav { position: static; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 700px) {
+      .stats, .module-grid, .split, .glossary { grid-template-columns: 1fr; }
+      .toolbar { grid-template-columns: 1fr; }
+      .grade-banner { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -1.5px; }
+      .hero { padding-top: 58px; }
+      .node-row { grid-template-columns: 1fr; }
+    }
+
+
+    .detail-link { color: var(--primary); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .detail-link:hover { text-decoration: underline; }
+    .full-materials-section { background: linear-gradient(180deg, rgba(18,36,58,.24), rgba(7,17,31,0)); }
+    .detail-toolbar { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; margin-bottom: 14px; }
+    .detail-filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 28px; }
+    .detail-filter { padding: 9px 13px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: rgba(255,255,255,.035); cursor: pointer; font-weight: 750; }
+    .detail-filter:hover, .detail-filter.active { color: var(--text); border-color: rgba(50,199,255,.45); background: rgba(50,199,255,.12); }
+    .detail-grade-group + .detail-grade-group { margin-top: 38px; }
+    .detail-grade-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .detail-grade-head h3 { margin: 3px 0 0; font-size: 1.45rem; }
+    .detail-grade-head > span { color: var(--muted); font-size: 13px; }
+    .grade-kicker { color: var(--accent); font-size: 12px; font-weight: 850; text-transform: uppercase; letter-spacing: .8px; }
+    .lesson-list { display: grid; gap: 12px; }
+    .lesson-detail { border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, rgba(16,34,56,.9), rgba(11,26,44,.9)); overflow: hidden; scroll-margin-top: 92px; }
+    .lesson-detail[open] { border-color: rgba(50,199,255,.4); box-shadow: 0 14px 34px rgba(0,0,0,.18); }
+    .lesson-detail.hidden-detail { display: none; }
+    .lesson-detail summary { list-style: none; display: grid; grid-template-columns: 45px 1fr auto; align-items: center; gap: 13px; padding: 16px 18px; cursor: pointer; user-select: none; }
+    .lesson-detail summary::-webkit-details-marker { display: none; }
+    .lesson-number { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; color: var(--primary); background: rgba(50,199,255,.09); border: 1px solid rgba(50,199,255,.2); font-weight: 850; }
+    .lesson-summary-text { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px 10px; min-width: 0; }
+    .lesson-summary-text strong { font-size: 1rem; }
+    .lesson-summary-text small { grid-column: 2; color: var(--muted); }
+    .lesson-chevron { color: var(--primary); font-size: 1.3rem; transition: transform .2s ease; }
+    .lesson-detail[open] .lesson-chevron { transform: rotate(45deg); }
+    .lesson-content { padding: 0 18px 20px 76px; border-top: 1px solid var(--border); }
+    .lesson-block { padding-top: 18px; }
+    .lesson-block h4 { margin: 0 0 7px; color: var(--primary); }
+    .lesson-block p { color: #d8e5f4; margin: 0; }
+    .lesson-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .lesson-block ul, .lesson-block ol { margin: 0; padding-left: 20px; color: var(--muted); }
+    .lesson-block li + li { margin-top: 7px; }
+    .lesson-example, .lesson-target { margin-top: 17px; padding: 13px 15px; border-radius: 11px; color: #dbe8f6; background: rgba(255,255,255,.04); border: 1px solid var(--border); }
+    .lesson-example { border-left: 4px solid var(--warning); }
+    .lesson-target { border-left: 4px solid var(--accent); }
+    .back-link { display: inline-block; margin-top: 15px; color: var(--primary); font-size: 13px; font-weight: 800; }
+
+    @media (max-width: 700px) {
+      .detail-toolbar, .lesson-columns { grid-template-columns: 1fr; }
+      .lesson-detail summary { grid-template-columns: 40px 1fr auto; padding: 14px; }
+      .lesson-summary-text { grid-template-columns: 1fr; }
+      .lesson-summary-text small { grid-column: 1; }
+      .lesson-summary-text .badge { width: fit-content; }
+      .lesson-content { padding: 0 15px 18px; }
+      .detail-grade-head { align-items: start; }
+    }
+
+    @media print {
+      .topbar, .hero-actions, .toolbar, .tabs, .quiz-wrap, footer { display: none !important; }
+      body { background: #fff; color: #111; }
+      .grade-panel { display: block !important; }
+      .module-card, .grade-banner, .info-card { break-inside: avoid; background: #fff; color: #111; border-color: #ccc; box-shadow: none; }
+      .module-body p, .grade-banner p, .info-card ul, .info-card ol { color: #333; }
+      .module-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#beranda">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="12" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 11l8-4M8 13l8 4"/></svg>
+        </span>
+        <span>NetFiber Academy<small>MikroTik & Fiber Optik SMK</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Navigasi utama">
+        <a href="#materi">Materi</a>
+        <a href="#semua-materi">Semua Materi</a>
+        <a href="#praktik">Praktik</a>
+        <a href="#evaluasi">Evaluasi</a>
+        <a href="#glosarium">Glosarium</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="beranda">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Portal Belajar TJKT/TKJ • Kelas X–XII</span>
+          <h1>Kuasai <span class="gradient-text">MikroTik</span> dan <span class="gradient-text">Fiber Optik</span> dari dasar hingga proyek industri.</h1>
+          <p>Website pembelajaran terstruktur untuk siswa SMK. Materi dibagi berdasarkan tingkat kelas, dilengkapi penjelasan yang mudah dipahami, konsep inti, langkah praktik, evaluasi, dan proyek akhir.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#materi">Mulai Belajar</a>
+            <a class="btn secondary" href="#semua-materi">Baca Semua Materi</a>
+            <button class="btn secondary" onclick="window.print()">Cetak Silabus</button>
+          </div>
+          <div class="stats">
+            <div class="stat"><b>3</b><span>Tingkat kelas</span></div>
+            <div class="stat"><b id="moduleCount">0</b><span>Modul pembelajaran</span></div>
+            <div class="stat"><b>15</b><span>Soal evaluasi</span></div>
+            <div class="stat"><b>1</b><span>Proyek terpadu</span></div>
+          </div>
+        </div>
+        <div class="hero-panel" aria-label="Ilustrasi topologi jaringan dan fiber optik">
+          <div class="network-map">
+            <div class="node-row">
+              <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><strong>Client</strong></div>
+              <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 11h.01M10 11h.01M17 11h.01M7 14h10"/></svg><strong>MikroTik Router</strong></div>
+              <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h16v8H4z"/><path d="M7 12h.01M10 12h.01M13 12h.01M16 12h.01"/></svg><strong>Switch</strong></div>
+            </div>
+            <div class="fiber-line"></div>
+            <div class="node-row">
+              <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18"/><path d="M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg><strong>Backbone Fiber</strong></div>
+              <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8"/></svg><strong>ODC / ODP</strong></div>
+              <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9H3z"/><path d="M9 20v-6h6v6"/></svg><strong>Pelanggan</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="materi">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Peta Materi Kelas X, XI, dan XII</h2><p>Pilih tingkat kelas. Gunakan pencarian untuk menemukan topik seperti NAT, VLAN, OSPF, OTDR, splicing, atau FTTH.</p></div>
+        </div>
+
+        <div class="toolbar">
+          <input id="searchInput" class="search" type="search" placeholder="Cari materi..." aria-label="Cari materi" />
+          <button class="btn secondary" id="expandAll">Buka Semua Kelas</button>
+          <button class="btn danger" id="resetProgress">Reset Progres</button>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-grade="10">Kelas X — Dasar</button>
+          <button class="tab" data-grade="11">Kelas XI — Menengah</button>
+          <button class="tab" data-grade="12">Kelas XII — Lanjut</button>
+        </div>
+
+        <div id="gradePanels"></div>
+        <div id="emptyState" class="empty-state">Materi tidak ditemukan. Gunakan kata kunci lain.</div>
+      </div>
+    </section>
+
+
+    <section id="semua-materi" class="full-materials-section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Semua Materi dan Penjelasan</h2>
+            <p>Buka judul materi untuk membaca penjelasan, konsep inti, langkah praktik, contoh penerapan, dan target kompetensi. Isinya dibuat singkat agar mudah dipahami dan tetap cukup lengkap untuk belajar.</p>
+          </div>
+        </div>
+        <div class="detail-toolbar">
+          <input id="allMaterialSearch" class="search" type="search" placeholder="Cari penjelasan, konsep, atau praktik..." aria-label="Cari semua materi" />
+          <button class="btn secondary" id="openVisibleDetails" type="button">Buka Hasil</button>
+          <button class="btn secondary" id="closeAllDetails" type="button">Tutup Semua</button>
+        </div>
+        <div class="detail-filters" aria-label="Filter semua materi">
+          <button class="detail-filter active" type="button" data-detail-filter="all">Semua kelas</button>
+          <button class="detail-filter" type="button" data-detail-filter="10">Kelas X</button>
+          <button class="detail-filter" type="button" data-detail-filter="11">Kelas XI</button>
+          <button class="detail-filter" type="button" data-detail-filter="12">Kelas XII</button>
+          <button class="detail-filter" type="button" data-detail-type="MikroTik">MikroTik</button>
+          <button class="detail-filter" type="button" data-detail-type="Fiber Optik">Fiber Optik</button>
+          <button class="detail-filter" type="button" data-detail-type="Project">Proyek</button>
+        </div>
+        <div id="detailMaterialList">
+        <section class="detail-grade-group" data-detail-group="10">
+          <div class="detail-grade-head">
+            <div><span class="grade-kicker">Kelas X</span><h3>Kelas X — Fondasi Jaringan dan Fiber Optik</h3></div>
+            <span>14 materi</span>
+          </div>
+          <div class="lesson-list">
+          <details class="lesson-detail" id="detail-10-0" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik dasar jaringan komputer memahami lan, wan, internet, topologi, media transmisi, bandwidth, latency, dan perangkat jaringan. lan/wan dan internet topologi bus, star, ring, mesh hub, switch, router, access point jaringan komputer menghubungkan dua atau lebih perangkat agar dapat bertukar data dan memakai sumber daya bersama. lan mencakup area kecil seperti laboratorium, sedangkan wan menghubungkan lokasi yang berjauhan melalui jaringan operator atau internet. switch meneruskan data di dalam satu lan berdasarkan alamat mac. router menghubungkan jaringan yang berbeda dan memilih jalur paket berdasarkan alamat ip. access point menyediakan akses nirkabel, sedangkan bandwidth adalah kapasitas jalur dan latency adalah waktu tunda. identifikasi fungsi perangkat yang tersedia di laboratorium. gambar topologi star sederhana berisi router, switch, access point, dan klien. hubungkan perangkat lalu uji koneksi antarklien dengan ping. contoh: komputer laboratorium terhubung ke switch, kemudian switch terhubung ke router untuk mengakses internet.">
+            <summary>
+              <span class="lesson-number">01</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Dasar Jaringan Komputer</strong><small>4 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Jaringan komputer menghubungkan dua atau lebih perangkat agar dapat bertukar data dan memakai sumber daya bersama. LAN mencakup area kecil seperti laboratorium, sedangkan WAN menghubungkan lokasi yang berjauhan melalui jaringan operator atau internet.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Switch meneruskan data di dalam satu LAN berdasarkan alamat MAC.</li><li>Router menghubungkan jaringan yang berbeda dan memilih jalur paket berdasarkan alamat IP.</li><li>Access point menyediakan akses nirkabel, sedangkan bandwidth adalah kapasitas jalur dan latency adalah waktu tunda.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Identifikasi fungsi perangkat yang tersedia di laboratorium.</li><li>Gambar topologi star sederhana berisi router, switch, access point, dan klien.</li><li>Hubungkan perangkat lalu uji koneksi antarklien dengan ping.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Contoh: komputer laboratorium terhubung ke switch, kemudian switch terhubung ke router untuk mengakses internet.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Memahami LAN, WAN, internet, topologi, media transmisi, bandwidth, latency, dan perangkat jaringan.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-1" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik model osi dan tcp/ip menganalisis proses komunikasi data berdasarkan lapisan protokol. 7 lapisan osi model tcp/ip enkapsulasi dan decapsulation protokol utama: arp, icmp, tcp, udp model osi dan tcp/ip membantu menjelaskan perjalanan data dari aplikasi pengirim sampai aplikasi penerima. setiap lapisan memiliki tugas tertentu, sehingga gangguan jaringan dapat dicari secara sistematis dari lapisan fisik hingga aplikasi. enkapsulasi menambahkan header saat data turun melalui lapisan; decapsulation melepaskannya di sisi penerima. tcp mengutamakan keandalan, sedangkan udp mengutamakan kecepatan dan overhead rendah. arp mencari alamat mac dari alamat ipv4, sedangkan icmp dipakai antara lain oleh ping. urutkan tujuh lapisan osi beserta fungsi utamanya. amati proses membuka situs dan tentukan protokol yang bekerja. kelompokkan contoh gangguan berdasarkan lapisan osi. contoh: kabel putus termasuk masalah layer fisik, sedangkan salah alamat ip termasuk masalah layer jaringan.">
+            <summary>
+              <span class="lesson-number">02</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Model OSI dan TCP/IP</strong><small>4 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Model OSI dan TCP/IP membantu menjelaskan perjalanan data dari aplikasi pengirim sampai aplikasi penerima. Setiap lapisan memiliki tugas tertentu, sehingga gangguan jaringan dapat dicari secara sistematis dari lapisan fisik hingga aplikasi.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Enkapsulasi menambahkan header saat data turun melalui lapisan; decapsulation melepaskannya di sisi penerima.</li><li>TCP mengutamakan keandalan, sedangkan UDP mengutamakan kecepatan dan overhead rendah.</li><li>ARP mencari alamat MAC dari alamat IPv4, sedangkan ICMP dipakai antara lain oleh ping.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Urutkan tujuh lapisan OSI beserta fungsi utamanya.</li><li>Amati proses membuka situs dan tentukan protokol yang bekerja.</li><li>Kelompokkan contoh gangguan berdasarkan lapisan OSI.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Contoh: kabel putus termasuk masalah layer fisik, sedangkan salah alamat IP termasuk masalah layer jaringan.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menganalisis proses komunikasi data berdasarkan lapisan protokol.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-2" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik ipv4 dan subnetting dasar menentukan network id, host id, subnet mask, broadcast, dan rentang host. ip public dan private cidr subnet /24 sampai /30 latihan perhitungan subnet alamat ipv4 terdiri dari 32 bit dan ditulis sebagai empat bilangan desimal. subnet mask atau prefix cidr menentukan bagian network dan host, sehingga kita dapat menghitung network id, broadcast, serta jumlah alamat yang dapat dipakai. alamat private dipakai di jaringan lokal dan tidak dirutekan langsung di internet. prefix yang lebih besar menghasilkan subnet lebih kecil dan jumlah host lebih sedikit. network id menandai jaringan, broadcast digunakan untuk seluruh host dalam subnet, dan alamat di antaranya dipakai host. ubah subnet mask desimal menjadi prefix cidr. hitung network, broadcast, dan rentang host untuk /24 hingga /30. susun tabel ip untuk dua atau tiga segmen jaringan. contoh: 192.168.10.0/24 memiliki network 192.168.10.0, broadcast 192.168.10.255, dan 254 host yang dapat dipakai.">
+            <summary>
+              <span class="lesson-number">03</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>IPv4 dan Subnetting Dasar</strong><small>6 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Alamat IPv4 terdiri dari 32 bit dan ditulis sebagai empat bilangan desimal. Subnet mask atau prefix CIDR menentukan bagian network dan host, sehingga kita dapat menghitung network ID, broadcast, serta jumlah alamat yang dapat dipakai.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Alamat private dipakai di jaringan lokal dan tidak dirutekan langsung di internet.</li><li>Prefix yang lebih besar menghasilkan subnet lebih kecil dan jumlah host lebih sedikit.</li><li>Network ID menandai jaringan, broadcast digunakan untuk seluruh host dalam subnet, dan alamat di antaranya dipakai host.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Ubah subnet mask desimal menjadi prefix CIDR.</li><li>Hitung network, broadcast, dan rentang host untuk /24 hingga /30.</li><li>Susun tabel IP untuk dua atau tiga segmen jaringan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Contoh: 192.168.10.0/24 memiliki network 192.168.10.0, broadcast 192.168.10.255, dan 254 host yang dapat dipakai.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menentukan network ID, host ID, subnet mask, broadcast, dan rentang host.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-3" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik pengenalan mikrotik routeros mengenal produk mikrotik, lisensi, routerboard, chr, dan metode akses. routeros dan routerboard winbox, webfig, ssh, terminal safe mode dan reset configuration mikrotik menyediakan perangkat routerboard dan sistem operasi routeros untuk routing, firewall, hotspot, vpn, dan manajemen bandwidth. routeros juga dapat dijalankan sebagai chr pada mesin virtual untuk latihan tanpa perangkat fisik. winbox cocok untuk konfigurasi grafis, webfig melalui browser, sedangkan ssh dan terminal untuk perintah teks. lisensi menentukan fitur dan batas penggunaan tertentu pada routeros. safe mode membantu membatalkan perubahan otomatis ketika koneksi administrator terputus. temukan perangkat melalui winbox menggunakan mac address atau ip. masuk melalui winbox dan terminal lalu bandingkan menunya. lakukan reset hanya pada perangkat latihan sesuai instruksi guru. contoh: chr dapat dipasang di virtualbox untuk menyimulasikan beberapa router dalam satu komputer.">
+            <summary>
+              <span class="lesson-number">04</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Pengenalan MikroTik RouterOS</strong><small>4 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>MikroTik menyediakan perangkat RouterBOARD dan sistem operasi RouterOS untuk routing, firewall, hotspot, VPN, dan manajemen bandwidth. RouterOS juga dapat dijalankan sebagai CHR pada mesin virtual untuk latihan tanpa perangkat fisik.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Winbox cocok untuk konfigurasi grafis, WebFig melalui browser, sedangkan SSH dan terminal untuk perintah teks.</li><li>Lisensi menentukan fitur dan batas penggunaan tertentu pada RouterOS.</li><li>Safe Mode membantu membatalkan perubahan otomatis ketika koneksi administrator terputus.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Temukan perangkat melalui Winbox menggunakan MAC address atau IP.</li><li>Masuk melalui Winbox dan terminal lalu bandingkan menunya.</li><li>Lakukan reset hanya pada perangkat latihan sesuai instruksi guru.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Contoh: CHR dapat dipasang di VirtualBox untuk menyimulasikan beberapa router dalam satu komputer.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengenal produk MikroTik, lisensi, RouterBOARD, CHR, dan metode akses.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-4" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik konfigurasi awal router melakukan konfigurasi identitas, user, waktu, interface, dan backup. identity dan timezone user management rename interface backup dan export konfigurasi awal membuat router mudah dikenali, aman, dan siap dipakai. langkah penting meliputi mengubah identity, waktu, nama interface, akun administrator, serta menyimpan backup dan export konfigurasi. identity dan nama interface yang jelas mengurangi kesalahan saat mengelola banyak perangkat. akun admin bawaan sebaiknya dinonaktifkan setelah akun baru yang kuat dibuat. backup menyimpan konfigurasi dalam format biner, sedangkan export menghasilkan perintah teks yang dapat dibaca. ubah identity, timezone, dan nama interface sesuai topologi. buat akun administrator baru dengan hak yang sesuai. simpan file backup dan export, lalu verifikasi bahwa file tersedia. contoh penamaan: ether1-wan, ether2-lan-guru, dan ether3-lan-siswa.">
+            <summary>
+              <span class="lesson-number">05</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Konfigurasi Awal Router</strong><small>5 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Konfigurasi awal membuat router mudah dikenali, aman, dan siap dipakai. Langkah penting meliputi mengubah identity, waktu, nama interface, akun administrator, serta menyimpan backup dan export konfigurasi.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Identity dan nama interface yang jelas mengurangi kesalahan saat mengelola banyak perangkat.</li><li>Akun admin bawaan sebaiknya dinonaktifkan setelah akun baru yang kuat dibuat.</li><li>Backup menyimpan konfigurasi dalam format biner, sedangkan export menghasilkan perintah teks yang dapat dibaca.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Ubah identity, timezone, dan nama interface sesuai topologi.</li><li>Buat akun administrator baru dengan hak yang sesuai.</li><li>Simpan file backup dan export, lalu verifikasi bahwa file tersedia.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Contoh penamaan: ether1-WAN, ether2-LAN-GURU, dan ether3-LAN-SISWA.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Melakukan konfigurasi identitas, user, waktu, interface, dan backup.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-5" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik ip address, route, dan dns membangun konektivitas dasar antara lan, router, dan internet. ip address pada interface default route dns server dan allow-remote-requests ping dan traceroute router memerlukan alamat ip pada setiap jaringan yang terhubung. default route mengarahkan paket ke gateway internet, sedangkan dns menerjemahkan nama domain menjadi alamat ip agar pengguna tidak perlu mengingat angka. alamat ip harus dipasang pada interface yang benar dan tidak boleh tumpang tindih. route 0.0.0.0/0 digunakan sebagai jalur untuk tujuan yang tidak memiliki route lebih spesifik. allow remote requests membuat router dapat melayani permintaan dns klien, tetapi harus dibatasi dari jaringan tepercaya. pasang ip pada interface lan dan wan sesuai tabel addressing. tambahkan default route menuju gateway penyedia layanan. uji berurutan: ping gateway, ping ip internet, lalu ping nama domain. jika ping 8.8.8.8 berhasil tetapi ping nama domain gagal, pemeriksaan diarahkan ke konfigurasi dns.">
+            <summary>
+              <span class="lesson-number">06</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>IP Address, Route, dan DNS</strong><small>6 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Router memerlukan alamat IP pada setiap jaringan yang terhubung. Default route mengarahkan paket ke gateway internet, sedangkan DNS menerjemahkan nama domain menjadi alamat IP agar pengguna tidak perlu mengingat angka.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Alamat IP harus dipasang pada interface yang benar dan tidak boleh tumpang tindih.</li><li>Route 0.0.0.0/0 digunakan sebagai jalur untuk tujuan yang tidak memiliki route lebih spesifik.</li><li>Allow Remote Requests membuat router dapat melayani permintaan DNS klien, tetapi harus dibatasi dari jaringan tepercaya.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Pasang IP pada interface LAN dan WAN sesuai tabel addressing.</li><li>Tambahkan default route menuju gateway penyedia layanan.</li><li>Uji berurutan: ping gateway, ping IP internet, lalu ping nama domain.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Jika ping 8.8.8.8 berhasil tetapi ping nama domain gagal, pemeriksaan diarahkan ke konfigurasi DNS.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membangun konektivitas dasar antara LAN, router, dan internet.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-6" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik dhcp server dan dhcp client mendistribusikan alamat ip otomatis pada jaringan lokal. dhcp client wan dhcp server setup pool, network, lease static lease dhcp memberikan alamat ip, gateway, dan dns secara otomatis kepada klien. pada sisi wan, dhcp client dapat menerima konfigurasi dari modem atau isp; pada sisi lan, dhcp server membagikan konfigurasi kepada komputer pengguna. pool berisi rentang alamat yang boleh dipinjamkan. network dhcp menentukan gateway, subnet mask, dan dns untuk klien. lease mencatat peminjaman alamat; static lease mengikat perangkat tertentu pada alamat yang tetap. aktifkan dhcp client pada interface wan bila diperlukan. buat dhcp server pada interface lan dengan pool yang tidak memakai alamat router. hubungkan klien, periksa lease, lalu ubah satu lease menjadi static. contoh: router memakai 192.168.10.1, sedangkan pool klien 192.168.10.10–192.168.10.200.">
+            <summary>
+              <span class="lesson-number">07</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>DHCP Server dan DHCP Client</strong><small>5 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>DHCP memberikan alamat IP, gateway, dan DNS secara otomatis kepada klien. Pada sisi WAN, DHCP Client dapat menerima konfigurasi dari modem atau ISP; pada sisi LAN, DHCP Server membagikan konfigurasi kepada komputer pengguna.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Pool berisi rentang alamat yang boleh dipinjamkan.</li><li>Network DHCP menentukan gateway, subnet mask, dan DNS untuk klien.</li><li>Lease mencatat peminjaman alamat; static lease mengikat perangkat tertentu pada alamat yang tetap.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Aktifkan DHCP Client pada interface WAN bila diperlukan.</li><li>Buat DHCP Server pada interface LAN dengan pool yang tidak memakai alamat router.</li><li>Hubungkan klien, periksa lease, lalu ubah satu lease menjadi static.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Contoh: router memakai 192.168.10.1, sedangkan pool klien 192.168.10.10–192.168.10.200.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mendistribusikan alamat IP otomatis pada jaringan lokal.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-7" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik nat dasar menghubungkan jaringan private ke internet menggunakan source nat. konsep nat masquerade chain srcnat pengujian akses internet nat menerjemahkan alamat private menjadi alamat yang dapat digunakan saat mengakses jaringan luar. pada koneksi internet dengan alamat wan yang dapat berubah, action masquerade umum dipakai pada chain srcnat. srcnat bekerja pada trafik yang keluar dari jaringan lokal. masquerade menggunakan alamat ip pada interface keluar secara otomatis. nat bukan pengganti firewall; aturan filter tetap dibutuhkan untuk keamanan. pastikan routing dan dns sudah benar sebelum membuat nat. buat rule srcnat dengan out-interface wan dan action masquerade. uji internet dari klien serta periksa counter rule nat. tanpa nat, alamat private klien biasanya tidak dapat menerima balasan langsung dari internet.">
+            <summary>
+              <span class="lesson-number">08</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>NAT Dasar</strong><small>4 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>NAT menerjemahkan alamat private menjadi alamat yang dapat digunakan saat mengakses jaringan luar. Pada koneksi internet dengan alamat WAN yang dapat berubah, action masquerade umum dipakai pada chain srcnat.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Srcnat bekerja pada trafik yang keluar dari jaringan lokal.</li><li>Masquerade menggunakan alamat IP pada interface keluar secara otomatis.</li><li>NAT bukan pengganti firewall; aturan filter tetap dibutuhkan untuk keamanan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Pastikan routing dan DNS sudah benar sebelum membuat NAT.</li><li>Buat rule srcnat dengan out-interface WAN dan action masquerade.</li><li>Uji internet dari klien serta periksa counter rule NAT.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Tanpa NAT, alamat private klien biasanya tidak dapat menerima balasan langsung dari internet.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menghubungkan jaringan private ke internet menggunakan source NAT.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-8" data-grade="10" data-type="MikroTik" data-detail-search="mikrotik firewall dasar memahami packet flow dan membuat filter rule sederhana. chain input, forward, output accept, drop, reject connection state proteksi akses router firewall memeriksa paket dan menentukan apakah paket diterima, ditolak, atau diteruskan. rule dibaca dari atas ke bawah, sehingga urutan aturan sangat menentukan hasil akhir. chain input melindungi router, forward mengatur trafik melewati router, dan output menangani trafik yang dibuat router. connection state established dan related biasanya diizinkan agar koneksi yang sah tetap berjalan. drop membuang paket tanpa balasan, sedangkan reject memberi respons penolakan. izinkan established dan related pada chain input. izinkan manajemen hanya dari jaringan administrator. tambahkan rule drop terakhir, lalu uji agar tidak mengunci akses sendiri. gunakan safe mode saat mengubah firewall untuk mengurangi risiko kehilangan akses ke router.">
+            <summary>
+              <span class="lesson-number">09</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Firewall Dasar</strong><small>6 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Firewall memeriksa paket dan menentukan apakah paket diterima, ditolak, atau diteruskan. Rule dibaca dari atas ke bawah, sehingga urutan aturan sangat menentukan hasil akhir.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Chain input melindungi router, forward mengatur trafik melewati router, dan output menangani trafik yang dibuat router.</li><li>Connection state established dan related biasanya diizinkan agar koneksi yang sah tetap berjalan.</li><li>Drop membuang paket tanpa balasan, sedangkan reject memberi respons penolakan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Izinkan established dan related pada chain input.</li><li>Izinkan manajemen hanya dari jaringan administrator.</li><li>Tambahkan rule drop terakhir, lalu uji agar tidak mengunci akses sendiri.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Gunakan Safe Mode saat mengubah firewall untuk mengurangi risiko kehilangan akses ke router.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Memahami packet flow dan membuat filter rule sederhana.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-9" data-grade="10" data-type="Fiber Optik" data-detail-search="fiber optik pengenalan fiber optik memahami prinsip rambatan cahaya dan keunggulan fiber dibanding tembaga. core, cladding, coating singlemode dan multimode sumber cahaya led dan laser kelebihan dan keterbatasan fiber optik mengirim data sebagai cahaya melalui core. cahaya tetap berada di dalam serat karena perbedaan indeks bias antara core dan cladding, sehingga jarak transmisi dapat jauh dengan redaman rendah. singlemode memiliki core kecil dan cocok untuk jarak jauh; multimode cocok untuk jarak lebih pendek. coating dan jacket melindungi serat dari kelembapan, goresan, serta tekanan mekanis. sumber laser umum pada singlemode, sedangkan led atau vcsel banyak digunakan pada multimode. amati penampang dan lapisan kabel fiber menggunakan contoh fisik. bandingkan karakteristik singlemode dan multimode. identifikasi kelebihan fiber dibanding kabel tembaga. fiber tahan gangguan elektromagnetik, tetapi lebih sensitif terhadap tekukan dan kebersihan konektor.">
+            <summary>
+              <span class="lesson-number">10</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Pengenalan Fiber Optik</strong><small>4 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Fiber optik mengirim data sebagai cahaya melalui core. Cahaya tetap berada di dalam serat karena perbedaan indeks bias antara core dan cladding, sehingga jarak transmisi dapat jauh dengan redaman rendah.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Singlemode memiliki core kecil dan cocok untuk jarak jauh; multimode cocok untuk jarak lebih pendek.</li><li>Coating dan jacket melindungi serat dari kelembapan, goresan, serta tekanan mekanis.</li><li>Sumber laser umum pada singlemode, sedangkan LED atau VCSEL banyak digunakan pada multimode.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Amati penampang dan lapisan kabel fiber menggunakan contoh fisik.</li><li>Bandingkan karakteristik singlemode dan multimode.</li><li>Identifikasi kelebihan fiber dibanding kabel tembaga.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Fiber tahan gangguan elektromagnetik, tetapi lebih sensitif terhadap tekukan dan kebersihan konektor.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Memahami prinsip rambatan cahaya dan keunggulan fiber dibanding tembaga.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-10" data-grade="10" data-type="Fiber Optik" data-detail-search="fiber optik jenis kabel dan kode warna mengidentifikasi konstruksi kabel, jumlah core, dan standar warna. drop cable, duct, aerial, indoor loose tube dan tight-buffered kode warna 12 core label dan identifikasi kabel kabel fiber dibuat dalam beberapa konstruksi agar sesuai dengan lingkungan pemasangan. kode warna memudahkan teknisi mengenali tube dan core sehingga penyambungan tidak tertukar. kabel aerial dirancang untuk pemasangan udara, duct untuk saluran, dan indoor untuk lingkungan bangunan. loose tube memberi ruang serat bergerak di dalam tube, sedangkan tight-buffered memiliki pelindung yang lebih rapat. urutan warna core harus diikuti secara konsisten pada kedua ujung link. kelompokkan sampel kabel berdasarkan metode instalasinya. hafalkan dan praktikkan urutan warna 12 core. buat label kabel yang memuat asal, tujuan, kapasitas, dan nomor core. kesalahan membaca warna core dapat menyebabkan pelanggan tersambung ke jalur yang salah.">
+            <summary>
+              <span class="lesson-number">11</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Jenis Kabel dan Kode Warna</strong><small>5 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Kabel fiber dibuat dalam beberapa konstruksi agar sesuai dengan lingkungan pemasangan. Kode warna memudahkan teknisi mengenali tube dan core sehingga penyambungan tidak tertukar.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Kabel aerial dirancang untuk pemasangan udara, duct untuk saluran, dan indoor untuk lingkungan bangunan.</li><li>Loose tube memberi ruang serat bergerak di dalam tube, sedangkan tight-buffered memiliki pelindung yang lebih rapat.</li><li>Urutan warna core harus diikuti secara konsisten pada kedua ujung link.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Kelompokkan sampel kabel berdasarkan metode instalasinya.</li><li>Hafalkan dan praktikkan urutan warna 12 core.</li><li>Buat label kabel yang memuat asal, tujuan, kapasitas, dan nomor core.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Kesalahan membaca warna core dapat menyebabkan pelanggan tersambung ke jalur yang salah.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengidentifikasi konstruksi kabel, jumlah core, dan standar warna.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-11" data-grade="10" data-type="Fiber Optik" data-detail-search="fiber optik konektor dan perangkat pasif mengenal sc, lc, fc, st, adaptor, pigtail, patch cord, splitter, odf, odc, dan odp. pc, upc, apc pigtail dan patch cord plc splitter manajemen kabel konektor menyambungkan fiber ke perangkat atau adaptor tanpa penyambungan permanen. perangkat pasif seperti splitter, odf, odc, dan odp membagi serta mengelola jalur tanpa memerlukan catu daya. upc biasanya berwarna biru, sedangkan apc berwarna hijau dan memiliki ujung miring untuk mengurangi pantulan. pigtail memiliki konektor pada satu ujung untuk disambung ke kabel, sedangkan patch cord berkonektor pada kedua ujung. plc splitter membagi daya optik ke beberapa keluaran dan menambah loss sesuai rasio pembagian. identifikasi konektor sc, lc, fc, dan st. pasangkan adaptor, pigtail, dan patch cord tanpa menyentuh ferrule. gambar alur odf–odc–odp–pelanggan pada jaringan ftth. konektor apc tidak boleh dipasangkan dengan upc karena bentuk poles berbeda dan dapat meningkatkan loss.">
+            <summary>
+              <span class="lesson-number">12</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Konektor dan Perangkat Pasif</strong><small>5 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Konektor menyambungkan fiber ke perangkat atau adaptor tanpa penyambungan permanen. Perangkat pasif seperti splitter, ODF, ODC, dan ODP membagi serta mengelola jalur tanpa memerlukan catu daya.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>UPC biasanya berwarna biru, sedangkan APC berwarna hijau dan memiliki ujung miring untuk mengurangi pantulan.</li><li>Pigtail memiliki konektor pada satu ujung untuk disambung ke kabel, sedangkan patch cord berkonektor pada kedua ujung.</li><li>PLC splitter membagi daya optik ke beberapa keluaran dan menambah loss sesuai rasio pembagian.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Identifikasi konektor SC, LC, FC, dan ST.</li><li>Pasangkan adaptor, pigtail, dan patch cord tanpa menyentuh ferrule.</li><li>Gambar alur ODF–ODC–ODP–pelanggan pada jaringan FTTH.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Konektor APC tidak boleh dipasangkan dengan UPC karena bentuk poles berbeda dan dapat meningkatkan loss.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengenal SC, LC, FC, ST, adaptor, pigtail, patch cord, splitter, ODF, ODC, dan ODP.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-12" data-grade="10" data-type="Fiber Optik" data-detail-search="fiber optik k3 dan perawatan alat menerapkan keselamatan kerja saat menangani kabel dan alat optik. bahaya laser penanganan serpihan serat pembersihan konektor perawatan cleaver dan splicer pekerjaan fiber melibatkan laser yang tidak terlihat dan serpihan kaca sangat kecil. k3 wajib diterapkan agar teknisi, pengguna, dan alat tetap aman selama pemotongan, penyambungan, serta pengukuran. jangan melihat langsung ke ujung fiber meskipun cahaya tidak tampak. serpihan serat dikumpulkan dalam wadah tertutup dan tidak boleh dibuang sembarangan. konektor, cleaver, dan fusion splicer harus bersih agar hasil ukur serta sambungan tetap baik. gunakan kacamata kerja dan siapkan wadah limbah serat. bersihkan konektor memakai alat dan cairan yang sesuai. periksa kondisi blade cleaver dan elektroda splicer sebelum praktik. kotoran mikroskopis pada ferrule dapat menyebabkan redaman besar dan merusak permukaan konektor.">
+            <summary>
+              <span class="lesson-number">13</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>K3 dan Perawatan Alat</strong><small>4 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Pekerjaan fiber melibatkan laser yang tidak terlihat dan serpihan kaca sangat kecil. K3 wajib diterapkan agar teknisi, pengguna, dan alat tetap aman selama pemotongan, penyambungan, serta pengukuran.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Jangan melihat langsung ke ujung fiber meskipun cahaya tidak tampak.</li><li>Serpihan serat dikumpulkan dalam wadah tertutup dan tidak boleh dibuang sembarangan.</li><li>Konektor, cleaver, dan fusion splicer harus bersih agar hasil ukur serta sambungan tetap baik.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Gunakan kacamata kerja dan siapkan wadah limbah serat.</li><li>Bersihkan konektor memakai alat dan cairan yang sesuai.</li><li>Periksa kondisi blade cleaver dan elektroda splicer sebelum praktik.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Kotoran mikroskopis pada ferrule dapat menyebabkan redaman besar dan merusak permukaan konektor.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menerapkan keselamatan kerja saat menangani kabel dan alat optik.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-10-13" data-grade="10" data-type="Project" data-detail-search="project proyek kelas x: lan dasar + simulasi fo membuat jaringan dua segmen sederhana dan poster jalur distribusi fiber. topologi dan tabel ip konfigurasi dhcp dan nat simulasi odc–odp–pelanggan laporan dan presentasi proyek ini menggabungkan konsep dasar jaringan ip dan alur distribusi fiber. siswa membuat lan sederhana yang dapat mengakses internet serta menjelaskan jalur fiber dari titik distribusi sampai pelanggan. topologi dan tabel ip harus dibuat sebelum konfigurasi. dhcp dan nat digunakan agar klien mendapat ip otomatis dan dapat mengakses internet. dokumentasi menunjukkan perangkat, port, kabel, hasil uji, dan pembagian tugas kelompok. rancang dua segmen lan beserta tabel addressing. konfigurasikan ip, dhcp, default route, dns, dan nat. buat poster atau miniatur odc–odp–pelanggan lalu presentasikan hasil uji. produk akhir berupa topologi, konfigurasi, hasil ping, dokumentasi foto, dan penjelasan alur fiber.">
+            <summary>
+              <span class="lesson-number">14</span>
+              <span class="lesson-summary-text"><span class="badge project">Project</span><strong>Proyek Kelas X: LAN Dasar + Simulasi FO</strong><small>8 JP • Kelas X</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Proyek ini menggabungkan konsep dasar jaringan IP dan alur distribusi fiber. Siswa membuat LAN sederhana yang dapat mengakses internet serta menjelaskan jalur fiber dari titik distribusi sampai pelanggan.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Topologi dan tabel IP harus dibuat sebelum konfigurasi.</li><li>DHCP dan NAT digunakan agar klien mendapat IP otomatis dan dapat mengakses internet.</li><li>Dokumentasi menunjukkan perangkat, port, kabel, hasil uji, dan pembagian tugas kelompok.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Rancang dua segmen LAN beserta tabel addressing.</li><li>Konfigurasikan IP, DHCP, default route, DNS, dan NAT.</li><li>Buat poster atau miniatur ODC–ODP–pelanggan lalu presentasikan hasil uji.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Produk akhir berupa topologi, konfigurasi, hasil ping, dokumentasi foto, dan penjelasan alur fiber.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membuat jaringan dua segmen sederhana dan poster jalur distribusi fiber.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details></div>
+        </section>
+        <section class="detail-grade-group" data-detail-group="11">
+          <div class="detail-grade-head">
+            <div><span class="grade-kicker">Kelas XI</span><h3>Kelas XI — Implementasi dan Layanan Jaringan</h3></div>
+            <span>15 materi</span>
+          </div>
+          <div class="lesson-list">
+          <details class="lesson-detail" id="detail-11-0" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik bridge, vlan, dan stp membangun segmentasi layer 2 serta mencegah loop jaringan. bridge interface vlan tagged/untagged pvid dan bridge vlan filtering rstp/stp bridge menggabungkan beberapa interface pada layer 2, sedangkan vlan memisahkan satu infrastruktur fisik menjadi beberapa jaringan logis. stp atau rstp mencegah loop yang dapat menyebabkan broadcast storm. frame tagged membawa vlan id, sedangkan frame untagged tidak. pvid menentukan vlan untuk frame untagged yang masuk pada sebuah port. bridge vlan filtering mengatur vlan mana yang boleh lewat pada port trunk dan access. buat bridge dan masukkan port yang diperlukan. konfigurasikan vlan access dan trunk dengan pvid serta tabel vlan. uji isolasi antarkelompok dan simulasi loop untuk mengamati rstp. contoh: vlan 10 untuk guru dan vlan 20 untuk siswa dapat melewati satu kabel trunk menuju switch lain.">
+            <summary>
+              <span class="lesson-number">01</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Bridge, VLAN, dan STP</strong><small>7 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Bridge menggabungkan beberapa interface pada layer 2, sedangkan VLAN memisahkan satu infrastruktur fisik menjadi beberapa jaringan logis. STP atau RSTP mencegah loop yang dapat menyebabkan broadcast storm.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Frame tagged membawa VLAN ID, sedangkan frame untagged tidak.</li><li>PVID menentukan VLAN untuk frame untagged yang masuk pada sebuah port.</li><li>Bridge VLAN Filtering mengatur VLAN mana yang boleh lewat pada port trunk dan access.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Buat bridge dan masukkan port yang diperlukan.</li><li>Konfigurasikan VLAN access dan trunk dengan PVID serta tabel VLAN.</li><li>Uji isolasi antarkelompok dan simulasi loop untuk mengamati RSTP.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Contoh: VLAN 10 untuk guru dan VLAN 20 untuk siswa dapat melewati satu kabel trunk menuju switch lain.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membangun segmentasi layer 2 serta mencegah loop jaringan.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-1" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik routing statis dan policy route dasar menghubungkan beberapa jaringan serta menentukan jalur berdasarkan kebijakan. static route distance dan scope check gateway routing mark dasar routing statis menentukan jalur secara manual dan cocok untuk jaringan kecil atau jalur yang stabil. policy routing menambahkan keputusan berdasarkan sumber atau penandaan trafik, bukan hanya alamat tujuan. distance menentukan prioritas ketika beberapa route menuju tujuan yang sama tersedia. check gateway membantu menonaktifkan route saat gateway tidak merespons. routing mark memisahkan tabel atau kebijakan jalur untuk kelompok trafik tertentu. tambahkan static route antardua atau tiga router. ubah distance dan amati route aktif. buat kebijakan sederhana agar satu subnet memakai gateway tertentu. policy route dapat mengarahkan jaringan laboratorium ke isp kedua sementara jaringan kantor memakai isp utama.">
+            <summary>
+              <span class="lesson-number">02</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Routing Statis dan Policy Route Dasar</strong><small>6 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Routing statis menentukan jalur secara manual dan cocok untuk jaringan kecil atau jalur yang stabil. Policy routing menambahkan keputusan berdasarkan sumber atau penandaan trafik, bukan hanya alamat tujuan.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Distance menentukan prioritas ketika beberapa route menuju tujuan yang sama tersedia.</li><li>Check gateway membantu menonaktifkan route saat gateway tidak merespons.</li><li>Routing mark memisahkan tabel atau kebijakan jalur untuk kelompok trafik tertentu.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Tambahkan static route antardua atau tiga router.</li><li>Ubah distance dan amati route aktif.</li><li>Buat kebijakan sederhana agar satu subnet memakai gateway tertentu.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Policy route dapat mengarahkan jaringan laboratorium ke ISP kedua sementara jaringan kantor memakai ISP utama.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menghubungkan beberapa jaringan serta menentukan jalur berdasarkan kebijakan.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-2" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik routing dinamis ospf dasar menerapkan pertukaran route otomatis pada beberapa router. neighbor dan adjacency area backbone network advertisement cost dan troubleshooting ospf adalah protokol link-state yang bertukar informasi jaringan secara otomatis. router membentuk adjacency, menyusun database topologi, lalu menghitung jalur terbaik berdasarkan cost. area backbone menggunakan area 0 dan menjadi pusat hubungan antararea. network advertisement menentukan prefix yang diumumkan ke tetangga. cost lebih kecil biasanya lebih dipilih; kesalahan mtu, area, atau autentikasi dapat menggagalkan adjacency. bangun topologi minimal tiga router. aktifkan ospf dan iklankan jaringan yang diperlukan. putuskan satu link, amati perubahan route, lalu analisis log tetangga. ospf memperbarui jalur otomatis ketika link utama terputus dan jalur alternatif tersedia.">
+            <summary>
+              <span class="lesson-number">03</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Routing Dinamis OSPF Dasar</strong><small>8 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>OSPF adalah protokol link-state yang bertukar informasi jaringan secara otomatis. Router membentuk adjacency, menyusun database topologi, lalu menghitung jalur terbaik berdasarkan cost.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Area backbone menggunakan area 0 dan menjadi pusat hubungan antararea.</li><li>Network advertisement menentukan prefix yang diumumkan ke tetangga.</li><li>Cost lebih kecil biasanya lebih dipilih; kesalahan MTU, area, atau autentikasi dapat menggagalkan adjacency.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Bangun topologi minimal tiga router.</li><li>Aktifkan OSPF dan iklankan jaringan yang diperlukan.</li><li>Putuskan satu link, amati perubahan route, lalu analisis log tetangga.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> OSPF memperbarui jalur otomatis ketika link utama terputus dan jalur alternatif tersedia.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menerapkan pertukaran route otomatis pada beberapa router.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-3" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik wireless dasar mengonfigurasi access point dan station dengan keamanan yang tepat. band, channel, frequency ssid dan security profile ap bridge dan station signal, ccq, noise floor jaringan wireless menggunakan gelombang radio sehingga kualitasnya dipengaruhi frekuensi, interferensi, jarak, penghalang, dan kemampuan perangkat. konfigurasi yang baik menyeimbangkan cakupan, kapasitas, dan keamanan. ssid adalah nama jaringan, sedangkan security profile menentukan autentikasi dan enkripsi. channel yang bertumpuk dapat menambah interferensi dan menurunkan throughput. signal, noise floor, snr, dan ccq membantu menilai kualitas sambungan. konfigurasikan satu perangkat sebagai ap dan satu sebagai station. pilih frekuensi yang sesuai berdasarkan hasil pemindaian. uji sinyal dan throughput pada beberapa jarak atau posisi. sinyal kuat tidak selalu berarti koneksi bagus jika noise tinggi atau channel sangat padat.">
+            <summary>
+              <span class="lesson-number">04</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Wireless Dasar</strong><small>6 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Jaringan wireless menggunakan gelombang radio sehingga kualitasnya dipengaruhi frekuensi, interferensi, jarak, penghalang, dan kemampuan perangkat. Konfigurasi yang baik menyeimbangkan cakupan, kapasitas, dan keamanan.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>SSID adalah nama jaringan, sedangkan security profile menentukan autentikasi dan enkripsi.</li><li>Channel yang bertumpuk dapat menambah interferensi dan menurunkan throughput.</li><li>Signal, noise floor, SNR, dan CCQ membantu menilai kualitas sambungan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Konfigurasikan satu perangkat sebagai AP dan satu sebagai station.</li><li>Pilih frekuensi yang sesuai berdasarkan hasil pemindaian.</li><li>Uji sinyal dan throughput pada beberapa jarak atau posisi.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Sinyal kuat tidak selalu berarti koneksi bagus jika noise tinggi atau channel sangat padat.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengonfigurasi access point dan station dengan keamanan yang tepat.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-4" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik hotspot gateway membangun layanan autentikasi pengguna berbasis web. hotspot setup user profile walled garden limit uptime dan rate limit hotspot gateway mengarahkan pengguna ke halaman login sebelum mengakses jaringan. sistem ini cocok untuk jaringan tamu atau sekolah yang membutuhkan autentikasi, pembatasan waktu, dan pencatatan pengguna. user profile menyimpan aturan bersama seperti rate limit dan session timeout. walled garden mengizinkan situs tertentu dibuka sebelum login. limit uptime membatasi total waktu penggunaan akun. jalankan hotspot setup pada interface khusus pengguna. buat user dan profile dengan batas kecepatan berbeda. uji login, logout, walled garden, dan masa berlaku akun. akun tamu dapat dibatasi 2 jam dengan kecepatan 2 mbps tanpa mengubah akun lain.">
+            <summary>
+              <span class="lesson-number">05</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Hotspot Gateway</strong><small>7 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Hotspot Gateway mengarahkan pengguna ke halaman login sebelum mengakses jaringan. Sistem ini cocok untuk jaringan tamu atau sekolah yang membutuhkan autentikasi, pembatasan waktu, dan pencatatan pengguna.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>User profile menyimpan aturan bersama seperti rate limit dan session timeout.</li><li>Walled garden mengizinkan situs tertentu dibuka sebelum login.</li><li>Limit uptime membatasi total waktu penggunaan akun.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Jalankan Hotspot Setup pada interface khusus pengguna.</li><li>Buat user dan profile dengan batas kecepatan berbeda.</li><li>Uji login, logout, walled garden, dan masa berlaku akun.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Akun tamu dapat dibatasi 2 jam dengan kecepatan 2 Mbps tanpa mengubah akun lain.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membangun layanan autentikasi pengguna berbasis web.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-5" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik pppoe server dan client menyediakan layanan akses pelanggan dengan autentikasi ppp. ppp secret profile dan local/remote address pppoe server interface monitoring session pppoe membentuk sesi point-to-point melalui ethernet dan umum digunakan untuk autentikasi pelanggan. setiap pengguna memiliki akun, profil, alamat ip, serta status sesi yang dapat dimonitor. ppp secret menyimpan nama pengguna dan kata sandi. profile menentukan local address, remote pool, rate limit, dan parameter layanan. pppoe client melakukan dial ke server dan memperoleh konfigurasi setelah autentikasi berhasil. buat pool alamat pelanggan dan ppp profile. aktifkan pppoe server pada interface distribusi. buat akun, lakukan dial dari client, lalu periksa active session. satu pelanggan dapat diberi profil 10 mbps dan pelanggan lain 20 mbps melalui profile berbeda.">
+            <summary>
+              <span class="lesson-number">06</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>PPPoE Server dan Client</strong><small>7 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>PPPoE membentuk sesi point-to-point melalui Ethernet dan umum digunakan untuk autentikasi pelanggan. Setiap pengguna memiliki akun, profil, alamat IP, serta status sesi yang dapat dimonitor.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>PPP Secret menyimpan nama pengguna dan kata sandi.</li><li>Profile menentukan local address, remote pool, rate limit, dan parameter layanan.</li><li>PPPoE Client melakukan dial ke server dan memperoleh konfigurasi setelah autentikasi berhasil.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Buat pool alamat pelanggan dan PPP profile.</li><li>Aktifkan PPPoE Server pada interface distribusi.</li><li>Buat akun, lakukan dial dari client, lalu periksa active session.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Satu pelanggan dapat diberi profil 10 Mbps dan pelanggan lain 20 Mbps melalui profile berbeda.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menyediakan layanan akses pelanggan dengan autentikasi PPP.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-6" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik manajemen bandwidth mengatur kecepatan pengguna dan prioritas trafik. simple queue target dan max-limit burst dasar pcq dasar manajemen bandwidth menjaga agar satu pengguna tidak menghabiskan seluruh kapasitas jaringan. simple queue mudah digunakan untuk target tertentu, sedangkan pcq membagi bandwidth secara lebih merata ke banyak pengguna. max-limit adalah batas maksimum trafik upload atau download. burst memberi kecepatan lebih tinggi sementara jika syarat waktu dan threshold terpenuhi. pcq classifier memisahkan aliran berdasarkan alamat sumber atau tujuan. buat simple queue untuk satu alamat ip. bandingkan hasil speed test sebelum dan sesudah pembatasan. uji pcq pada beberapa klien yang mengunduh bersamaan. koneksi 20 mbps dapat dibagi lebih adil kepada empat klien dengan pcq daripada memakai satu batas bersama tanpa klasifikasi.">
+            <summary>
+              <span class="lesson-number">07</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Manajemen Bandwidth</strong><small>7 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Manajemen bandwidth menjaga agar satu pengguna tidak menghabiskan seluruh kapasitas jaringan. Simple Queue mudah digunakan untuk target tertentu, sedangkan PCQ membagi bandwidth secara lebih merata ke banyak pengguna.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Max-limit adalah batas maksimum trafik upload atau download.</li><li>Burst memberi kecepatan lebih tinggi sementara jika syarat waktu dan threshold terpenuhi.</li><li>PCQ classifier memisahkan aliran berdasarkan alamat sumber atau tujuan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Buat Simple Queue untuk satu alamat IP.</li><li>Bandingkan hasil speed test sebelum dan sesudah pembatasan.</li><li>Uji PCQ pada beberapa klien yang mengunduh bersamaan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Koneksi 20 Mbps dapat dibagi lebih adil kepada empat klien dengan PCQ daripada memakai satu batas bersama tanpa klasifikasi.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengatur kecepatan pengguna dan prioritas trafik.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-7" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik firewall menengah menerapkan proteksi jaringan menggunakan address-list, nat, dan connection tracking. address-list port forwarding dst-nat fasttrack filter brute-force dasar firewall menengah menggunakan connection tracking, address-list, nat, dan urutan rule yang efisien. tujuannya bukan hanya memblokir, tetapi juga mengizinkan layanan yang diperlukan secara terukur. address-list mengelompokkan banyak ip agar rule lebih sederhana. dst-nat atau port forwarding meneruskan koneksi dari alamat publik ke server internal. fasttrack mempercepat trafik tertentu, tetapi dapat melewati proses queue atau pemeriksaan tertentu. buat address-list untuk jaringan tepercaya dan alamat yang diblokir. konfigurasikan port forwarding ke server uji lalu batasi sumbernya. simulasikan percobaan login berulang dan masukkan sumber ke daftar blokir. port forwarding harus dibuka hanya pada port dan sumber yang diperlukan, bukan seluruh akses ke server.">
+            <summary>
+              <span class="lesson-number">08</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Firewall Menengah</strong><small>8 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Firewall menengah menggunakan connection tracking, address-list, NAT, dan urutan rule yang efisien. Tujuannya bukan hanya memblokir, tetapi juga mengizinkan layanan yang diperlukan secara terukur.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Address-list mengelompokkan banyak IP agar rule lebih sederhana.</li><li>Dst-nat atau port forwarding meneruskan koneksi dari alamat publik ke server internal.</li><li>FastTrack mempercepat trafik tertentu, tetapi dapat melewati proses queue atau pemeriksaan tertentu.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Buat address-list untuk jaringan tepercaya dan alamat yang diblokir.</li><li>Konfigurasikan port forwarding ke server uji lalu batasi sumbernya.</li><li>Simulasikan percobaan login berulang dan masukkan sumber ke daftar blokir.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Port forwarding harus dibuka hanya pada port dan sumber yang diperlukan, bukan seluruh akses ke server.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menerapkan proteksi jaringan menggunakan address-list, NAT, dan connection tracking.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-8" data-grade="11" data-type="MikroTik" data-detail-search="mikrotik vpn dasar mengenal tunnel untuk akses jarak jauh dan antarkantor. konsep tunneling l2tp/ipsec wireguard dasar remote access vpn membuat tunnel agar perangkat atau kantor yang berjauhan dapat berkomunikasi seolah berada pada jaringan privat. keamanan tunnel bergantung pada protokol, enkripsi, autentikasi, dan pengelolaan kunci. remote-access vpn menghubungkan pengguna ke kantor, sedangkan site-to-site menghubungkan dua jaringan. l2tp sering dipadukan dengan ipsec untuk perlindungan data. wireguard menggunakan konfigurasi peer dan kunci publik yang relatif sederhana. tentukan subnet tunnel dan jaringan yang boleh diakses. bangun tunnel l2tp/ipsec atau wireguard pada lingkungan latihan. uji route, ping, dan akses layanan internal melalui vpn. pegawai dapat mengakses server sekolah dari rumah tanpa membuka server langsung ke internet.">
+            <summary>
+              <span class="lesson-number">09</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>VPN Dasar</strong><small>6 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>VPN membuat tunnel agar perangkat atau kantor yang berjauhan dapat berkomunikasi seolah berada pada jaringan privat. Keamanan tunnel bergantung pada protokol, enkripsi, autentikasi, dan pengelolaan kunci.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Remote-access VPN menghubungkan pengguna ke kantor, sedangkan site-to-site menghubungkan dua jaringan.</li><li>L2TP sering dipadukan dengan IPsec untuk perlindungan data.</li><li>WireGuard menggunakan konfigurasi peer dan kunci publik yang relatif sederhana.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Tentukan subnet tunnel dan jaringan yang boleh diakses.</li><li>Bangun tunnel L2TP/IPsec atau WireGuard pada lingkungan latihan.</li><li>Uji route, ping, dan akses layanan internal melalui VPN.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Pegawai dapat mengakses server sekolah dari rumah tanpa membuka server langsung ke internet.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengenal tunnel untuk akses jarak jauh dan antarkantor.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-9" data-grade="11" data-type="Fiber Optik" data-detail-search="fiber optik stripping, cleaving, dan fusion splicing melakukan persiapan serat dan penyambungan dengan loss rendah. stripping coating pembersihan alkohol isopropil sudut cleave arc test dan splice protection fusion splicing menyatukan dua ujung serat dengan busur listrik. hasil baik memerlukan pengupasan yang benar, serat bersih, potongan tegak, penyelarasan tepat, dan perlindungan sambungan. stripping menghilangkan coating tanpa melukai cladding. cleaving menghasilkan permukaan ujung serat yang rata dan mendekati sudut 90 derajat. protection sleeve melindungi titik sambungan setelah dipanaskan. kupas coating sesuai panjang yang dibutuhkan. bersihkan serat dengan alkohol isopropil lalu cleave. lakukan arc test, splice, pasang sleeve, dan simpan sambungan pada tray. loss sambungan tinggi sering disebabkan serat kotor, hasil cleave buruk, atau penyelarasan tidak tepat.">
+            <summary>
+              <span class="lesson-number">10</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Stripping, Cleaving, dan Fusion Splicing</strong><small>8 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Fusion splicing menyatukan dua ujung serat dengan busur listrik. Hasil baik memerlukan pengupasan yang benar, serat bersih, potongan tegak, penyelarasan tepat, dan perlindungan sambungan.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Stripping menghilangkan coating tanpa melukai cladding.</li><li>Cleaving menghasilkan permukaan ujung serat yang rata dan mendekati sudut 90 derajat.</li><li>Protection sleeve melindungi titik sambungan setelah dipanaskan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Kupas coating sesuai panjang yang dibutuhkan.</li><li>Bersihkan serat dengan alkohol isopropil lalu cleave.</li><li>Lakukan arc test, splice, pasang sleeve, dan simpan sambungan pada tray.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Loss sambungan tinggi sering disebabkan serat kotor, hasil cleave buruk, atau penyelarasan tidak tepat.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Melakukan persiapan serat dan penyambungan dengan loss rendah.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-10" data-grade="11" data-type="Fiber Optik" data-detail-search="fiber optik optical power meter dan light source mengukur daya optik dan redaman link secara end-to-end. dbm dan db reference power insertion loss pencatatan hasil ukur light source mengirim daya optik pada panjang gelombang tertentu, sedangkan optical power meter mengukur daya yang diterima. selisih nilai referensi dan hasil pengukuran menunjukkan insertion loss link. dbm menyatakan daya absolut, sedangkan db menyatakan perbandingan atau loss. reference power harus ditetapkan dengan patch cord yang bersih dan metode yang konsisten. hasil ukur dibandingkan dengan link budget dan batas penerimaan. bersihkan konektor dan atur panjang gelombang yang sama pada kedua alat. lakukan reference atau zeroing sesuai prosedur alat. ukur link, catat dbm, lalu hitung loss dalam db. jika referensi -2 dbm dan hasil akhir -7 dbm, insertion loss link adalah 5 db.">
+            <summary>
+              <span class="lesson-number">11</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Optical Power Meter dan Light Source</strong><small>6 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Light source mengirim daya optik pada panjang gelombang tertentu, sedangkan Optical Power Meter mengukur daya yang diterima. Selisih nilai referensi dan hasil pengukuran menunjukkan insertion loss link.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>dBm menyatakan daya absolut, sedangkan dB menyatakan perbandingan atau loss.</li><li>Reference power harus ditetapkan dengan patch cord yang bersih dan metode yang konsisten.</li><li>Hasil ukur dibandingkan dengan link budget dan batas penerimaan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Bersihkan konektor dan atur panjang gelombang yang sama pada kedua alat.</li><li>Lakukan reference atau zeroing sesuai prosedur alat.</li><li>Ukur link, catat dBm, lalu hitung loss dalam dB.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Jika referensi -2 dBm dan hasil akhir -7 dBm, insertion loss link adalah 5 dB.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengukur daya optik dan redaman link secara end-to-end.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-11" data-grade="11" data-type="Fiber Optik" data-detail-search="fiber optik otdr dasar membaca trace otdr untuk mengetahui panjang, event, sambungan, dan gangguan. launch cable dead zone reflective/non-reflective event estimasi lokasi putus otdr mengirim pulsa cahaya dan menganalisis pantulan serta backscatter untuk memperkirakan panjang, redaman, dan lokasi event. trace harus dibaca bersama pengaturan range, pulse width, wavelength, dan indeks bias. launch cable membantu melihat konektor pertama yang tertutup dead zone. event reflektif biasanya berasal dari konektor atau ujung terbuka; splice umumnya non-reflektif. dead zone adalah jarak setelah refleksi besar ketika event berikutnya sulit dibedakan. hubungkan launch cable dan pilih range melebihi panjang link. jalankan pengukuran lalu baca event table. tentukan panjang link, lokasi sambungan, dan dugaan titik putus. puncak refleksi besar diikuti akhir trace mendadak dapat menunjukkan konektor terbuka atau fiber putus.">
+            <summary>
+              <span class="lesson-number">12</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>OTDR Dasar</strong><small>8 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>OTDR mengirim pulsa cahaya dan menganalisis pantulan serta backscatter untuk memperkirakan panjang, redaman, dan lokasi event. Trace harus dibaca bersama pengaturan range, pulse width, wavelength, dan indeks bias.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Launch cable membantu melihat konektor pertama yang tertutup dead zone.</li><li>Event reflektif biasanya berasal dari konektor atau ujung terbuka; splice umumnya non-reflektif.</li><li>Dead zone adalah jarak setelah refleksi besar ketika event berikutnya sulit dibedakan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Hubungkan launch cable dan pilih range melebihi panjang link.</li><li>Jalankan pengukuran lalu baca event table.</li><li>Tentukan panjang link, lokasi sambungan, dan dugaan titik putus.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Puncak refleksi besar diikuti akhir trace mendadak dapat menunjukkan konektor terbuka atau fiber putus.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membaca trace OTDR untuk mengetahui panjang, event, sambungan, dan gangguan.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-12" data-grade="11" data-type="Fiber Optik" data-detail-search="fiber optik link budget dan power budget menghitung kelayakan link berdasarkan loss kabel, konektor, splice, dan splitter. attenuation serat connector loss splice loss safety margin link budget menghitung total loss dari kabel, konektor, splice, dan splitter. power budget membandingkan daya pemancar dengan sensitivitas penerima untuk memastikan masih tersedia margin operasi. loss serat dihitung dari panjang kabel dikali redaman per kilometer. setiap konektor, splice, dan splitter menambahkan loss. safety margin disediakan untuk penuaan, perbaikan, variasi alat, dan perubahan lingkungan. daftar seluruh komponen dan panjang jalur. hitung loss tiap komponen lalu jumlahkan. bandingkan total loss dengan batas perangkat dan tambahkan margin. link dinilai layak jika daya terima masih berada dalam rentang kerja perangkat setelah semua loss dan margin diperhitungkan.">
+            <summary>
+              <span class="lesson-number">13</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Link Budget dan Power Budget</strong><small>7 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Link budget menghitung total loss dari kabel, konektor, splice, dan splitter. Power budget membandingkan daya pemancar dengan sensitivitas penerima untuk memastikan masih tersedia margin operasi.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Loss serat dihitung dari panjang kabel dikali redaman per kilometer.</li><li>Setiap konektor, splice, dan splitter menambahkan loss.</li><li>Safety margin disediakan untuk penuaan, perbaikan, variasi alat, dan perubahan lingkungan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Daftar seluruh komponen dan panjang jalur.</li><li>Hitung loss tiap komponen lalu jumlahkan.</li><li>Bandingkan total loss dengan batas perangkat dan tambahkan margin.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Link dinilai layak jika daya terima masih berada dalam rentang kerja perangkat setelah semua loss dan margin diperhitungkan.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menghitung kelayakan link berdasarkan loss kabel, konektor, splice, dan splitter.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-13" data-grade="11" data-type="Fiber Optik" data-detail-search="fiber optik desain dasar ftth merancang jaringan dari olt menuju pelanggan. olt, feeder, distribusi, drop odf, odc, odp splitter ratio homepass dan port utilization ftth membawa fiber dari olt sampai rumah pelanggan melalui jaringan feeder, distribusi, dan drop. desain harus mempertimbangkan jumlah pelanggan, rasio splitter, kapasitas core, jarak, redaman, serta ruang pengembangan. odf mengelola terminasi di sentral, odc membagi jalur utama, dan odp melayani area pelanggan. splitter ratio lebih besar melayani lebih banyak pelanggan tetapi menghasilkan loss lebih tinggi. homepass adalah rumah yang dapat dijangkau jaringan, belum tentu sudah menjadi pelanggan aktif. petakan area dan hitung jumlah homepass. tentukan lokasi odc/odp, rute kabel, serta rasio splitter. buat core assignment dan hitung link budget pelanggan terjauh. odp 1:8 idealnya ditempatkan agar delapan port dapat menjangkau pelanggan tanpa drop cable berlebihan.">
+            <summary>
+              <span class="lesson-number">14</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Desain Dasar FTTH</strong><small>7 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>FTTH membawa fiber dari OLT sampai rumah pelanggan melalui jaringan feeder, distribusi, dan drop. Desain harus mempertimbangkan jumlah pelanggan, rasio splitter, kapasitas core, jarak, redaman, serta ruang pengembangan.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>ODF mengelola terminasi di sentral, ODC membagi jalur utama, dan ODP melayani area pelanggan.</li><li>Splitter ratio lebih besar melayani lebih banyak pelanggan tetapi menghasilkan loss lebih tinggi.</li><li>Homepass adalah rumah yang dapat dijangkau jaringan, belum tentu sudah menjadi pelanggan aktif.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Petakan area dan hitung jumlah homepass.</li><li>Tentukan lokasi ODC/ODP, rute kabel, serta rasio splitter.</li><li>Buat core assignment dan hitung link budget pelanggan terjauh.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> ODP 1:8 idealnya ditempatkan agar delapan port dapat menjangkau pelanggan tanpa drop cable berlebihan.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Merancang jaringan dari OLT menuju pelanggan.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-11-14" data-grade="11" data-type="Project" data-detail-search="project proyek kelas xi: layanan internet sekolah membangun layanan internet tersegmentasi untuk guru, siswa, dan laboratorium. vlan dan addressing hotspot/pppoe bandwidth management dokumentasi fo dan link budget proyek ini membangun jaringan sekolah yang tersegmentasi untuk guru, siswa, dan laboratorium. setiap segmen mendapat kebijakan akses, autentikasi, dan bandwidth berbeda serta didukung dokumentasi jalur fiber. vlan memisahkan broadcast domain dan meningkatkan keteraturan jaringan. hotspot atau pppoe mengelola identitas pengguna. bandwidth, firewall, dan link budget harus disesuaikan dengan kebutuhan layanan. analisis jumlah pengguna dan kebutuhan tiap kelompok. implementasikan vlan, addressing, routing, autentikasi, dan queue. uji keamanan antar-vlan, kecepatan, login pengguna, dan kelayakan jalur fiber. hasil proyek mencakup diagram, file konfigurasi, tabel pengujian, link budget, dan presentasi.">
+            <summary>
+              <span class="lesson-number">15</span>
+              <span class="lesson-summary-text"><span class="badge project">Project</span><strong>Proyek Kelas XI: Layanan Internet Sekolah</strong><small>10 JP • Kelas XI</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Proyek ini membangun jaringan sekolah yang tersegmentasi untuk guru, siswa, dan laboratorium. Setiap segmen mendapat kebijakan akses, autentikasi, dan bandwidth berbeda serta didukung dokumentasi jalur fiber.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>VLAN memisahkan broadcast domain dan meningkatkan keteraturan jaringan.</li><li>Hotspot atau PPPoE mengelola identitas pengguna.</li><li>Bandwidth, firewall, dan link budget harus disesuaikan dengan kebutuhan layanan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Analisis jumlah pengguna dan kebutuhan tiap kelompok.</li><li>Implementasikan VLAN, addressing, routing, autentikasi, dan queue.</li><li>Uji keamanan antar-VLAN, kecepatan, login pengguna, dan kelayakan jalur fiber.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Hasil proyek mencakup diagram, file konfigurasi, tabel pengujian, link budget, dan presentasi.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membangun layanan internet tersegmentasi untuk guru, siswa, dan laboratorium.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details></div>
+        </section>
+        <section class="detail-grade-group" data-detail-group="12">
+          <div class="detail-grade-head">
+            <div><span class="grade-kicker">Kelas XII</span><h3>Kelas XII — Administrasi Lanjut dan Proyek Industri</h3></div>
+            <span>15 materi</span>
+          </div>
+          <div class="lesson-list">
+          <details class="lesson-detail" id="detail-12-0" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik ospf lanjut dan desain area merancang ospf multi-area dan mengendalikan pertukaran route. abr dan area type route summarization default route injection filter routing pada jaringan besar, ospf dibagi menjadi beberapa area agar database dan proses perhitungan lebih efisien. abr menghubungkan area ke backbone dan dapat melakukan summarization agar tabel routing lebih ringkas. area stub membatasi jenis route tertentu untuk mengurangi informasi yang diterima router. route summarization menggabungkan beberapa prefix yang berurutan menjadi satu pengumuman. default route injection memberi jalur keluar kepada area yang tidak memerlukan seluruh route eksternal. rancang topologi area 0 dan minimal satu area lain. konfigurasikan abr, summarization, dan default injection. periksa lsdb, route, adjacency, serta dampak ketika link berubah. summarization yang salah dapat menimbulkan blackhole, sehingga prefix dan batas area harus direncanakan dengan teliti.">
+            <summary>
+              <span class="lesson-number">01</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>OSPF Lanjut dan Desain Area</strong><small>8 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Pada jaringan besar, OSPF dibagi menjadi beberapa area agar database dan proses perhitungan lebih efisien. ABR menghubungkan area ke backbone dan dapat melakukan summarization agar tabel routing lebih ringkas.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Area stub membatasi jenis route tertentu untuk mengurangi informasi yang diterima router.</li><li>Route summarization menggabungkan beberapa prefix yang berurutan menjadi satu pengumuman.</li><li>Default route injection memberi jalur keluar kepada area yang tidak memerlukan seluruh route eksternal.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Rancang topologi area 0 dan minimal satu area lain.</li><li>Konfigurasikan ABR, summarization, dan default injection.</li><li>Periksa LSDB, route, adjacency, serta dampak ketika link berubah.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Summarization yang salah dapat menimbulkan blackhole, sehingga prefix dan batas area harus direncanakan dengan teliti.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Merancang OSPF multi-area dan mengendalikan pertukaran route.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-1" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik pengenalan bgp memahami konsep autonomous system dan pertukaran route antardomain. asn dan peering ebgp dan ibgp nlri dan best path filter prefix dasar bgp adalah protokol routing antar-autonomous system dan menjadi dasar pertukaran route di internet. bgp memilih jalur berdasarkan atribut dan kebijakan, bukan hanya jarak teknis terpendek. asn mengidentifikasi satu domain administrasi jaringan. ebgp digunakan antar-as, sedangkan ibgp menyebarkan informasi bgp di dalam as. prefix filter mencegah pengumuman atau penerimaan jaringan yang tidak sah. bangun dua as pada simulasi dan bentuk sesi ebgp. iklankan satu prefix dari masing-masing as. terapkan filter masuk dan keluar lalu periksa route bgp. kesalahan filter bgp dapat menyebarkan route yang tidak semestinya, sehingga konfigurasi harus diuji dan didokumentasikan.">
+            <summary>
+              <span class="lesson-number">02</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Pengenalan BGP</strong><small>8 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>BGP adalah protokol routing antar-autonomous system dan menjadi dasar pertukaran route di internet. BGP memilih jalur berdasarkan atribut dan kebijakan, bukan hanya jarak teknis terpendek.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>ASN mengidentifikasi satu domain administrasi jaringan.</li><li>eBGP digunakan antar-AS, sedangkan iBGP menyebarkan informasi BGP di dalam AS.</li><li>Prefix filter mencegah pengumuman atau penerimaan jaringan yang tidak sah.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Bangun dua AS pada simulasi dan bentuk sesi eBGP.</li><li>Iklankan satu prefix dari masing-masing AS.</li><li>Terapkan filter masuk dan keluar lalu periksa route BGP.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Kesalahan filter BGP dapat menyebarkan route yang tidak semestinya, sehingga konfigurasi harus diuji dan didokumentasikan.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Memahami konsep autonomous system dan pertukaran route antardomain.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-2" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik failover dan load balancing meningkatkan ketersediaan internet menggunakan beberapa jalur wan. recursive gateway netwatch failover ecmp pcc load balancing failover memindahkan trafik ke jalur cadangan saat jalur utama gagal. load balancing membagi trafik ke beberapa wan untuk memanfaatkan kapasitas, tetapi tidak selalu membuat satu sesi menjadi gabungan seluruh kecepatan. recursive gateway memeriksa tujuan internet, bukan hanya modem terdekat. ecmp membagi route dengan biaya sama, sedangkan pcc mengelompokkan koneksi secara konsisten. netwatch dapat menjalankan tindakan ketika host uji berubah status. konfigurasikan dua wan dengan nat yang benar. buat failover dan uji dengan memutus jalur utama. implementasikan pcc, lalu verifikasi distribusi koneksi dan kestabilan sesi. layanan perbankan atau login dapat bermasalah bila satu sesi berpindah-pindah alamat publik, sehingga klasifikasi koneksi harus konsisten.">
+            <summary>
+              <span class="lesson-number">03</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Failover dan Load Balancing</strong><small>9 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Failover memindahkan trafik ke jalur cadangan saat jalur utama gagal. Load balancing membagi trafik ke beberapa WAN untuk memanfaatkan kapasitas, tetapi tidak selalu membuat satu sesi menjadi gabungan seluruh kecepatan.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Recursive gateway memeriksa tujuan internet, bukan hanya modem terdekat.</li><li>ECMP membagi route dengan biaya sama, sedangkan PCC mengelompokkan koneksi secara konsisten.</li><li>Netwatch dapat menjalankan tindakan ketika host uji berubah status.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Konfigurasikan dua WAN dengan NAT yang benar.</li><li>Buat failover dan uji dengan memutus jalur utama.</li><li>Implementasikan PCC, lalu verifikasi distribusi koneksi dan kestabilan sesi.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Layanan perbankan atau login dapat bermasalah bila satu sesi berpindah-pindah alamat publik, sehingga klasifikasi koneksi harus konsisten.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Meningkatkan ketersediaan internet menggunakan beberapa jalur WAN.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-3" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik qos lanjut mengendalikan trafik berdasarkan jenis layanan dan prioritas. mangle packet/connection mark queue tree pcq classifier prioritas voip dan aplikasi qos lanjut mengklasifikasikan trafik, memberi tanda, lalu mengatur antrian dan prioritas. tujuannya menjaga layanan penting seperti voip tetap stabil ketika jaringan padat. connection mark menandai koneksi, sedangkan packet mark menandai paket untuk queue. queue tree membentuk hierarki bandwidth pada interface atau parent tertentu. priority menentukan urutan pelayanan, tetapi tetap memerlukan limit dan klasifikasi yang benar. identifikasi trafik penting dan kapasitas nyata link. buat mangle untuk connection mark dan packet mark. bangun queue tree lalu uji saat download besar dan panggilan suara berjalan. qos tidak menambah bandwidth; qos mengatur penggunaan bandwidth yang tersedia.">
+            <summary>
+              <span class="lesson-number">04</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>QoS Lanjut</strong><small>9 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>QoS lanjut mengklasifikasikan trafik, memberi tanda, lalu mengatur antrian dan prioritas. Tujuannya menjaga layanan penting seperti VoIP tetap stabil ketika jaringan padat.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Connection mark menandai koneksi, sedangkan packet mark menandai paket untuk queue.</li><li>Queue Tree membentuk hierarki bandwidth pada interface atau parent tertentu.</li><li>Priority menentukan urutan pelayanan, tetapi tetap memerlukan limit dan klasifikasi yang benar.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Identifikasi trafik penting dan kapasitas nyata link.</li><li>Buat mangle untuk connection mark dan packet mark.</li><li>Bangun Queue Tree lalu uji saat download besar dan panggilan suara berjalan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> QoS tidak menambah bandwidth; QoS mengatur penggunaan bandwidth yang tersedia.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengendalikan trafik berdasarkan jenis layanan dan prioritas.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-4" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik hardening routeros mengurangi permukaan serangan dan mengamankan manajemen router. update routeros dan firmware service restriction strong authentication firewall input dan logging hardening mengurangi layanan yang tidak diperlukan, membatasi sumber manajemen, dan memastikan perangkat selalu diperbarui. keamanan dibangun berlapis melalui akun, service, firewall, enkripsi, logging, dan backup. routeros serta firmware routerboard perlu diperbarui melalui proses terkontrol. service seperti telnet atau ftp sebaiknya dimatikan bila tidak digunakan. akses manajemen dibatasi berdasarkan ip, interface, vpn, dan autentikasi kuat. inventaris layanan aktif dan nonaktifkan yang tidak perlu. batasi winbox, ssh, dan api hanya dari jaringan administrator. terapkan firewall input, logging, backup, dan uji akses dari jaringan lain. mengganti port saja bukan perlindungan utama; pembatasan sumber dan autentikasi tetap diperlukan.">
+            <summary>
+              <span class="lesson-number">05</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Hardening RouterOS</strong><small>7 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Hardening mengurangi layanan yang tidak diperlukan, membatasi sumber manajemen, dan memastikan perangkat selalu diperbarui. Keamanan dibangun berlapis melalui akun, service, firewall, enkripsi, logging, dan backup.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>RouterOS serta firmware RouterBOARD perlu diperbarui melalui proses terkontrol.</li><li>Service seperti Telnet atau FTP sebaiknya dimatikan bila tidak digunakan.</li><li>Akses manajemen dibatasi berdasarkan IP, interface, VPN, dan autentikasi kuat.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Inventaris layanan aktif dan nonaktifkan yang tidak perlu.</li><li>Batasi Winbox, SSH, dan API hanya dari jaringan administrator.</li><li>Terapkan firewall input, logging, backup, dan uji akses dari jaringan lain.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Mengganti port saja bukan perlindungan utama; pembatasan sumber dan autentikasi tetap diperlukan.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengurangi permukaan serangan dan mengamankan manajemen router.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-5" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik monitoring dan logging memantau performa, insiden, dan kapasitas jaringan. graphing dan resource monitor syslog remote snmp the dude konsep dasar monitoring menunjukkan kondisi jaringan sebelum pengguna melapor, sedangkan logging menyimpan kejadian untuk analisis. data cpu, memori, interface, latency, loss, dan kapasitas perlu dipantau secara berkala. snmp memungkinkan sistem pemantau membaca metrik perangkat. remote syslog menyimpan log di server terpisah sehingga riwayat tidak hilang saat router bermasalah. the dude dapat memetakan perangkat dan memberi peringatan saat layanan tidak tersedia. tentukan metrik dan ambang batas yang perlu dipantau. aktifkan logging yang relevan dan kirim ke syslog uji. buat dashboard atau peta sederhana lalu simulasikan gangguan. lonjakan cpu dan trafik interface pada waktu yang sama dapat membantu menemukan sumber gangguan.">
+            <summary>
+              <span class="lesson-number">06</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Monitoring dan Logging</strong><small>7 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Monitoring menunjukkan kondisi jaringan sebelum pengguna melapor, sedangkan logging menyimpan kejadian untuk analisis. Data CPU, memori, interface, latency, loss, dan kapasitas perlu dipantau secara berkala.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>SNMP memungkinkan sistem pemantau membaca metrik perangkat.</li><li>Remote syslog menyimpan log di server terpisah sehingga riwayat tidak hilang saat router bermasalah.</li><li>The Dude dapat memetakan perangkat dan memberi peringatan saat layanan tidak tersedia.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Tentukan metrik dan ambang batas yang perlu dipantau.</li><li>Aktifkan logging yang relevan dan kirim ke syslog uji.</li><li>Buat dashboard atau peta sederhana lalu simulasikan gangguan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Lonjakan CPU dan trafik interface pada waktu yang sama dapat membantu menemukan sumber gangguan.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Memantau performa, insiden, dan kapasitas jaringan.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-6" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik scripting dan scheduler mengotomasi tugas administrasi dan respons insiden sederhana. variabel dan conditional scheduler backup otomatis notifikasi dasar script mengotomasi perintah berulang, sedangkan scheduler menjalankannya pada waktu tertentu. otomasi harus sederhana, diuji, memiliki log, dan tidak menyimpan rahasia secara sembarangan. variabel menyimpan nilai, sedangkan conditional memilih tindakan berdasarkan kondisi. scheduler dapat menjalankan backup, pemeriksaan link, atau pembersihan data secara berkala. kesalahan script berpotensi memengaruhi banyak konfigurasi sehingga hak akses dan pengujian penting. buat script menulis pesan ke log. tambahkan kondisi untuk memeriksa status interface atau ping. jadwalkan backup otomatis dan verifikasi file serta log hasilnya. script dapat membuat backup harian dengan nama berisi tanggal agar riwayat mudah dilacak.">
+            <summary>
+              <span class="lesson-number">07</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Scripting dan Scheduler</strong><small>8 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Script mengotomasi perintah berulang, sedangkan Scheduler menjalankannya pada waktu tertentu. Otomasi harus sederhana, diuji, memiliki log, dan tidak menyimpan rahasia secara sembarangan.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Variabel menyimpan nilai, sedangkan conditional memilih tindakan berdasarkan kondisi.</li><li>Scheduler dapat menjalankan backup, pemeriksaan link, atau pembersihan data secara berkala.</li><li>Kesalahan script berpotensi memengaruhi banyak konfigurasi sehingga hak akses dan pengujian penting.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Buat script menulis pesan ke log.</li><li>Tambahkan kondisi untuk memeriksa status interface atau ping.</li><li>Jadwalkan backup otomatis dan verifikasi file serta log hasilnya.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Script dapat membuat backup harian dengan nama berisi tanggal agar riwayat mudah dilacak.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Mengotomasi tugas administrasi dan respons insiden sederhana.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-7" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik ipv6 dasar membangun addressing dan routing ipv6 pada routeros. format alamat ipv6 prefix /64 neighbor discovery firewall ipv6 ipv6 menggunakan alamat 128 bit dan dirancang untuk ruang alamat yang sangat besar. jaringan lokal umumnya memakai prefix /64, sedangkan neighbor discovery menggantikan beberapa fungsi arp dan mekanisme ipv4 lain. alamat link-local digunakan pada satu segmen dan dibuat otomatis. router advertisement dapat memberi informasi prefix dan gateway kepada host. firewall ipv6 wajib dibuat terpisah dari firewall ipv4. baca dan singkat notasi alamat ipv6 dengan benar. pasang prefix /64 pada dua segmen dan uji konektivitas. buat rule firewall ipv6 dasar tanpa memblokir icmpv6 yang diperlukan. mematikan seluruh icmpv6 dapat merusak neighbor discovery dan fungsi penting lainnya.">
+            <summary>
+              <span class="lesson-number">08</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>IPv6 Dasar</strong><small>7 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>IPv6 menggunakan alamat 128 bit dan dirancang untuk ruang alamat yang sangat besar. Jaringan lokal umumnya memakai prefix /64, sedangkan Neighbor Discovery menggantikan beberapa fungsi ARP dan mekanisme IPv4 lain.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Alamat link-local digunakan pada satu segmen dan dibuat otomatis.</li><li>Router Advertisement dapat memberi informasi prefix dan gateway kepada host.</li><li>Firewall IPv6 wajib dibuat terpisah dari firewall IPv4.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Baca dan singkat notasi alamat IPv6 dengan benar.</li><li>Pasang prefix /64 pada dua segmen dan uji konektivitas.</li><li>Buat rule firewall IPv6 dasar tanpa memblokir ICMPv6 yang diperlukan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Mematikan seluruh ICMPv6 dapat merusak Neighbor Discovery dan fungsi penting lainnya.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membangun addressing dan routing IPv6 pada RouterOS.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-8" data-grade="12" data-type="MikroTik" data-detail-search="mikrotik troubleshooting terstruktur menganalisis gangguan dari layer fisik hingga aplikasi. metode divide and conquer torch dan sniffer log analysis dokumentasi akar masalah troubleshooting terstruktur mengumpulkan fakta, mempersempit penyebab, menguji hipotesis, memperbaiki, lalu memverifikasi hasil. perubahan dilakukan satu per satu agar dampaknya dapat diukur. metode divide and conquer memulai pemeriksaan dari lapisan tengah lalu bergerak sesuai hasil. torch melihat trafik secara langsung, sedangkan packet sniffer menangkap paket untuk analisis rinci. root cause adalah penyebab utama, bukan hanya gejala yang terlihat. catat gejala, waktu, cakupan pengguna, dan perubahan terakhir. uji fisik, ip, route, dns, firewall, dan aplikasi secara berurutan. dokumentasikan akar masalah, tindakan, hasil uji, dan pencegahan. mengganti perangkat tanpa diagnosis dapat menyembunyikan masalah dan menambah gangguan baru.">
+            <summary>
+              <span class="lesson-number">09</span>
+              <span class="lesson-summary-text"><span class="badge ">MikroTik</span><strong>Troubleshooting Terstruktur</strong><small>8 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Troubleshooting terstruktur mengumpulkan fakta, mempersempit penyebab, menguji hipotesis, memperbaiki, lalu memverifikasi hasil. Perubahan dilakukan satu per satu agar dampaknya dapat diukur.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Metode divide and conquer memulai pemeriksaan dari lapisan tengah lalu bergerak sesuai hasil.</li><li>Torch melihat trafik secara langsung, sedangkan packet sniffer menangkap paket untuk analisis rinci.</li><li>Root cause adalah penyebab utama, bukan hanya gejala yang terlihat.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Catat gejala, waktu, cakupan pengguna, dan perubahan terakhir.</li><li>Uji fisik, IP, route, DNS, firewall, dan aplikasi secara berurutan.</li><li>Dokumentasikan akar masalah, tindakan, hasil uji, dan pencegahan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Mengganti perangkat tanpa diagnosis dapat menyembunyikan masalah dan menambah gangguan baru.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menganalisis gangguan dari layer fisik hingga aplikasi.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-9" data-grade="12" data-type="Fiber Optik" data-detail-search="fiber optik perencanaan jalur dan survey lapangan menentukan rute kabel, titik distribusi, kapasitas, dan risiko instalasi. site survey peta jalur dan koordinat boq/bom perizinan dan risiko survey lapangan mengubah kebutuhan jaringan menjadi rute dan daftar pekerjaan nyata. tim menilai jarak, akses, titik tiang atau duct, lokasi distribusi, risiko, izin, serta kebutuhan material. peta jalur dan koordinat mengurangi perbedaan antara desain dan kondisi lapangan. boq menyatakan volume pekerjaan, sedangkan bom memuat daftar material. risiko meliputi listrik, lalu lintas, banjir, vandalisme, akses gedung, dan ruang pemeliharaan. kumpulkan data lokasi, pelanggan, dan titik jaringan yang tersedia. telusuri rute alternatif dan catat jarak serta hambatan. buat peta, foto, boq/bom, estimasi loss, dan daftar perizinan. rute terpendek belum tentu terbaik bila sulit dipelihara atau melewati area berisiko tinggi.">
+            <summary>
+              <span class="lesson-number">10</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Perencanaan Jalur dan Survey Lapangan</strong><small>7 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Survey lapangan mengubah kebutuhan jaringan menjadi rute dan daftar pekerjaan nyata. Tim menilai jarak, akses, titik tiang atau duct, lokasi distribusi, risiko, izin, serta kebutuhan material.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Peta jalur dan koordinat mengurangi perbedaan antara desain dan kondisi lapangan.</li><li>BoQ menyatakan volume pekerjaan, sedangkan BoM memuat daftar material.</li><li>Risiko meliputi listrik, lalu lintas, banjir, vandalisme, akses gedung, dan ruang pemeliharaan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Kumpulkan data lokasi, pelanggan, dan titik jaringan yang tersedia.</li><li>Telusuri rute alternatif dan catat jarak serta hambatan.</li><li>Buat peta, foto, BoQ/BoM, estimasi loss, dan daftar perizinan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Rute terpendek belum tentu terbaik bila sulit dipelihara atau melewati area berisiko tinggi.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menentukan rute kabel, titik distribusi, kapasitas, dan risiko instalasi.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-10" data-grade="12" data-type="Fiber Optik" data-detail-search="fiber optik instalasi aerial, duct, dan indoor memilih metode pemasangan berdasarkan lingkungan dan standar kerja. tiang dan sagging duct dan handhole bending radius cable management metode instalasi dipilih berdasarkan lingkungan, jenis kabel, keamanan, dan biaya pemeliharaan. semua metode harus menjaga bending radius, gaya tarik, penyangga, label, serta perlindungan kabel. instalasi aerial memerlukan pengaturan sag dan jarak aman dari utilitas lain. duct dan handhole melindungi kabel bawah tanah serta menyediakan akses penarikan. indoor membutuhkan jalur rapi, tahan api sesuai kebutuhan, dan tidak mengganggu pengguna bangunan. periksa spesifikasi kabel dan batas gaya tarik. siapkan jalur, penyangga, roller, duct, atau tray sesuai metode. tarik kabel, sisakan slack, beri label, dan periksa tekukan serta kerusakan. tekukan terlalu tajam dapat menambah loss meskipun jacket kabel tampak tidak rusak.">
+            <summary>
+              <span class="lesson-number">11</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Instalasi Aerial, Duct, dan Indoor</strong><small>8 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Metode instalasi dipilih berdasarkan lingkungan, jenis kabel, keamanan, dan biaya pemeliharaan. Semua metode harus menjaga bending radius, gaya tarik, penyangga, label, serta perlindungan kabel.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Instalasi aerial memerlukan pengaturan sag dan jarak aman dari utilitas lain.</li><li>Duct dan handhole melindungi kabel bawah tanah serta menyediakan akses penarikan.</li><li>Indoor membutuhkan jalur rapi, tahan api sesuai kebutuhan, dan tidak mengganggu pengguna bangunan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Periksa spesifikasi kabel dan batas gaya tarik.</li><li>Siapkan jalur, penyangga, roller, duct, atau tray sesuai metode.</li><li>Tarik kabel, sisakan slack, beri label, dan periksa tekukan serta kerusakan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Tekukan terlalu tajam dapat menambah loss meskipun jacket kabel tampak tidak rusak.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Memilih metode pemasangan berdasarkan lingkungan dan standar kerja.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-11" data-grade="12" data-type="Fiber Optik" data-detail-search="fiber optik otdr lanjut dan analisis gangguan membedakan event, macro-bending, dirty connector, high-loss splice, dan fiber break. event table bidirectional test macrobend signature acceptance criteria analisis otdr lanjut membandingkan bentuk trace, event table, dan hasil dua arah untuk membedakan loss sambungan, refleksi, macrobend, konektor kotor, dan fiber putus. pengaturan alat harus sesuai jenis serta panjang link. pengujian dua arah mengurangi bias akibat perbedaan backscatter antarserat. macrobend sering menunjukkan loss lebih besar pada panjang gelombang yang lebih tinggi. acceptance criteria menentukan batas loss event, total loss, reflectance, dan panjang link. ukur dari arah a–b dan b–a memakai launch serta receive cable. bandingkan event pada dua panjang gelombang. rata-ratakan loss splice dua arah dan klasifikasikan gangguan. splice yang tampak gain dari satu arah dapat menunjukkan gainer akibat perbedaan serat, bukan penguatan nyata.">
+            <summary>
+              <span class="lesson-number">12</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>OTDR Lanjut dan Analisis Gangguan</strong><small>9 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Analisis OTDR lanjut membandingkan bentuk trace, event table, dan hasil dua arah untuk membedakan loss sambungan, refleksi, macrobend, konektor kotor, dan fiber putus. Pengaturan alat harus sesuai jenis serta panjang link.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Pengujian dua arah mengurangi bias akibat perbedaan backscatter antarserat.</li><li>Macrobend sering menunjukkan loss lebih besar pada panjang gelombang yang lebih tinggi.</li><li>Acceptance criteria menentukan batas loss event, total loss, reflectance, dan panjang link.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Ukur dari arah A–B dan B–A memakai launch serta receive cable.</li><li>Bandingkan event pada dua panjang gelombang.</li><li>Rata-ratakan loss splice dua arah dan klasifikasikan gangguan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Splice yang tampak gain dari satu arah dapat menunjukkan gainer akibat perbedaan serat, bukan penguatan nyata.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membedakan event, macro-bending, dirty connector, high-loss splice, dan fiber break.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-12" data-grade="12" data-type="Fiber Optik" data-detail-search="fiber optik pemeliharaan dan dokumentasi as-built membuat jadwal preventive maintenance dan dokumen jaringan aktual. core assignment labeling as-built drawing riwayat gangguan dan perbaikan as-built menggambarkan jaringan sesuai kondisi setelah instalasi, bukan hanya desain awal. dokumen yang akurat mempercepat penanganan gangguan, ekspansi, pemindahan core, dan audit aset. core assignment mencatat penggunaan setiap core dari asal sampai tujuan. label harus konsisten pada kabel, panel, tray, splitter, dan port. riwayat gangguan menyimpan gejala, lokasi, hasil ukur, tindakan, material, dan teknisi. verifikasi kondisi fisik dan bandingkan dengan gambar desain. perbarui rute, panjang, sambungan, port, dan core assignment. susun jadwal inspeksi, pembersihan, pengukuran, dan pencadangan dokumen. dokumen as-built yang salah dapat membuat teknisi memutus layanan pelanggan lain saat perbaikan.">
+            <summary>
+              <span class="lesson-number">13</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Pemeliharaan dan Dokumentasi As-Built</strong><small>7 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>As-built menggambarkan jaringan sesuai kondisi setelah instalasi, bukan hanya desain awal. Dokumen yang akurat mempercepat penanganan gangguan, ekspansi, pemindahan core, dan audit aset.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Core assignment mencatat penggunaan setiap core dari asal sampai tujuan.</li><li>Label harus konsisten pada kabel, panel, tray, splitter, dan port.</li><li>Riwayat gangguan menyimpan gejala, lokasi, hasil ukur, tindakan, material, dan teknisi.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Verifikasi kondisi fisik dan bandingkan dengan gambar desain.</li><li>Perbarui rute, panjang, sambungan, port, dan core assignment.</li><li>Susun jadwal inspeksi, pembersihan, pengukuran, dan pencadangan dokumen.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Dokumen as-built yang salah dapat membuat teknisi memutus layanan pelanggan lain saat perbaikan.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Membuat jadwal preventive maintenance dan dokumen jaringan aktual.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-13" data-grade="12" data-type="Fiber Optik" data-detail-search="fiber optik quality assurance link fiber menetapkan batas penerimaan hasil instalasi dan pengujian. inspection connector insertion loss test otdr acceptance berita acara pengujian quality assurance memastikan hasil instalasi memenuhi desain dan standar penerimaan sebelum diserahterimakan. pemeriksaan meliputi kebersihan konektor, insertion loss, trace otdr, label, kerapian, serta kelengkapan bukti. inspection connector dilakukan sebelum koneksi untuk mencegah kontaminasi silang. insertion loss test menilai performa end-to-end, sedangkan otdr menunjukkan lokasi event. berita acara mencatat alat, kalibrasi, metode, hasil, penyimpangan, dan persetujuan. periksa visual dan kebersihan seluruh konektor. lakukan pengukuran power meter serta otdr sesuai metode yang ditetapkan. bandingkan hasil dengan batas, perbaiki kegagalan, lalu susun laporan penerimaan. link tidak dinyatakan lulus hanya karena koneksi menyala; nilai loss dan dokumentasinya harus memenuhi kriteria.">
+            <summary>
+              <span class="lesson-number">14</span>
+              <span class="lesson-summary-text"><span class="badge fiber">Fiber Optik</span><strong>Quality Assurance Link Fiber</strong><small>7 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Quality Assurance memastikan hasil instalasi memenuhi desain dan standar penerimaan sebelum diserahterimakan. Pemeriksaan meliputi kebersihan konektor, insertion loss, trace OTDR, label, kerapian, serta kelengkapan bukti.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>Inspection connector dilakukan sebelum koneksi untuk mencegah kontaminasi silang.</li><li>Insertion loss test menilai performa end-to-end, sedangkan OTDR menunjukkan lokasi event.</li><li>Berita acara mencatat alat, kalibrasi, metode, hasil, penyimpangan, dan persetujuan.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Periksa visual dan kebersihan seluruh konektor.</li><li>Lakukan pengukuran power meter serta OTDR sesuai metode yang ditetapkan.</li><li>Bandingkan hasil dengan batas, perbaiki kegagalan, lalu susun laporan penerimaan.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Link tidak dinyatakan lulus hanya karena koneksi menyala; nilai loss dan dokumentasinya harus memenuhi kriteria.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Menetapkan batas penerimaan hasil instalasi dan pengujian.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details>
+          <details class="lesson-detail" id="detail-12-14" data-grade="12" data-type="Project" data-detail-search="project proyek akhir: mini isp/ftth terpadu merancang, mengimplementasikan, menguji, dan mempresentasikan jaringan akses berbasis mikrotik dan fiber optik. analisis kebutuhan dan hld/lld routing, keamanan, qos, monitoring desain odc/odp dan link budget uji layanan, dokumentasi, presentasi proyek akhir menggabungkan perencanaan layanan, routing, keamanan, qos, monitoring, dan desain ftth. tim bekerja seperti penyedia layanan kecil: menganalisis kebutuhan, membuat desain, mengimplementasikan, menguji, dan menyerahkan dokumentasi. hld menjelaskan arsitektur umum, sedangkan lld memuat detail port, ip, vlan, route, dan konfigurasi. desain fiber harus memiliki rute, core assignment, splitter, link budget, dan kapasitas cadangan. acceptance test menguji konektivitas, performa, keamanan, failover, monitoring, serta kualitas optik. susun kebutuhan, sla sederhana, hld, lld, bom, dan jadwal kerja. bangun layanan pelanggan beserta autentikasi, routing, firewall, qos, dan monitoring. uji skenario normal serta gangguan, lalu serahkan as-built, konfigurasi, hasil ukur, dan presentasi. penilaian mencakup ketepatan desain, fungsi layanan, keselamatan kerja, kualitas pengujian, dokumentasi, dan kemampuan menjelaskan keputusan teknis.">
+            <summary>
+              <span class="lesson-number">15</span>
+              <span class="lesson-summary-text"><span class="badge project">Project</span><strong>Proyek Akhir: Mini ISP/FTTH Terpadu</strong><small>16 JP • Kelas XII</small></span>
+              <span class="lesson-chevron" aria-hidden="true">＋</span>
+            </summary>
+            <div class="lesson-content">
+              <div class="lesson-block lesson-overview">
+                <h4>Penjelasan</h4>
+                <p>Proyek akhir menggabungkan perencanaan layanan, routing, keamanan, QoS, monitoring, dan desain FTTH. Tim bekerja seperti penyedia layanan kecil: menganalisis kebutuhan, membuat desain, mengimplementasikan, menguji, dan menyerahkan dokumentasi.</p>
+              </div>
+              <div class="lesson-columns">
+                <div class="lesson-block">
+                  <h4>Konsep inti</h4>
+                  <ul><li>HLD menjelaskan arsitektur umum, sedangkan LLD memuat detail port, IP, VLAN, route, dan konfigurasi.</li><li>Desain fiber harus memiliki rute, core assignment, splitter, link budget, dan kapasitas cadangan.</li><li>Acceptance test menguji konektivitas, performa, keamanan, failover, monitoring, serta kualitas optik.</li></ul>
+                </div>
+                <div class="lesson-block">
+                  <h4>Langkah belajar dan praktik</h4>
+                  <ol><li>Susun kebutuhan, SLA sederhana, HLD, LLD, BoM, dan jadwal kerja.</li><li>Bangun layanan pelanggan beserta autentikasi, routing, firewall, QoS, dan monitoring.</li><li>Uji skenario normal serta gangguan, lalu serahkan as-built, konfigurasi, hasil ukur, dan presentasi.</li></ol>
+                </div>
+              </div>
+              <div class="lesson-example"><strong>Contoh atau catatan penting:</strong> Penilaian mencakup ketepatan desain, fungsi layanan, keselamatan kerja, kualitas pengujian, dokumentasi, dan kemampuan menjelaskan keputusan teknis.</div>
+              <div class="lesson-target"><strong>Target kompetensi:</strong> Merancang, mengimplementasikan, menguji, dan mempresentasikan jaringan akses berbasis MikroTik dan fiber optik.</div>
+              <a class="back-link" href="#materi">Kembali ke peta materi ↑</a>
+            </div>
+          </details></div>
+        </section></div>
+        <div id="detailEmptyState" class="empty-state">Materi lengkap tidak ditemukan. Coba kata kunci atau filter lain.</div>
+      </div>
+    </section>
+
+    <section id="praktik">
+      <div class="container">
+        <div class="section-head"><div><h2>Standar Praktik Laboratorium</h2><p>Praktik harus dilakukan bertahap, terdokumentasi, dan mengikuti prosedur keselamatan kerja.</p></div></div>
+        <div class="split">
+          <article class="info-card">
+            <h3>Alur Praktikum MikroTik</h3>
+            <ol>
+              <li>Identifikasi kebutuhan dan gambar topologi logis/fisik.</li>
+              <li>Reset konfigurasi sesuai instruksi, ubah identity, dan buat akun administrator baru.</li>
+              <li>Konfigurasi interface, IP address, DNS, DHCP, routing, NAT, dan firewall.</li>
+              <li>Uji dengan ping, traceroute, torch, log, dan packet sniffer.</li>
+              <li>Simpan backup, export konfigurasi, lalu tulis laporan hasil pengujian.</li>
+            </ol>
+          </article>
+          <article class="info-card">
+            <h3>Alur Praktikum Fiber Optik</h3>
+            <ol>
+              <li>Gunakan APD dan amankan serpihan serat dalam wadah khusus.</li>
+              <li>Identifikasi jenis kabel, core, konektor, splitter, ODF, ODC, dan ODP.</li>
+              <li>Lakukan stripping, cleaving, fusion splicing, dan pemasangan protection sleeve.</li>
+              <li>Ukur daya dengan optical power meter dan telusuri gangguan memakai OTDR.</li>
+              <li>Dokumentasikan nilai redaman, loss event, panjang link, dan hasil akhir.</li>
+            </ol>
+          </article>
+        </div>
+        <div class="note" style="margin-top:18px"><strong>Keselamatan:</strong> jangan melihat langsung ke ujung kabel fiber, jangan menyentuh serpihan serat, matikan sumber optik saat pemeriksaan, dan jaga konektor tetap bersih.</div>
+      </div>
+    </section>
+
+    <section id="evaluasi">
+      <div class="container">
+        <div class="section-head"><div><h2>Evaluasi Cepat</h2><p>Lima soal per tingkat. Nilai tersimpan hanya selama halaman terbuka.</p></div></div>
+        <div class="quiz-wrap">
+          <aside class="quiz-box quiz-nav">
+            <h3>Pilih Tingkat</h3>
+            <div class="tabs" style="margin:0">
+              <button class="tab quiz-tab active" data-quiz="10">Kelas X</button>
+              <button class="tab quiz-tab" data-quiz="11">Kelas XI</button>
+              <button class="tab quiz-tab" data-quiz="12">Kelas XII</button>
+            </div>
+            <p style="color:var(--muted);font-size:14px">Kerjakan tanpa melihat kunci. Setelah menekan tombol nilai, jawaban benar akan dihitung otomatis.</p>
+          </aside>
+          <div id="quizPanels"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="glosarium">
+      <div class="container">
+        <div class="section-head"><div><h2>Glosarium Inti</h2><p>Istilah yang paling sering digunakan dalam administrasi jaringan dan instalasi fiber optik.</p></div></div>
+        <div class="glossary" id="glossaryGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div><strong style="color:var(--text)">NetFiber Academy</strong><br><span>Materi dapat disesuaikan dengan ATP, modul ajar, dan sarana sekolah.</span></div>
+      <div>© <span id="year"></span> • Website pembelajaran SMK</div>
+    </div>
+  </footer>
+
+  <script>
+    const curriculum = {
+      10: {
+        title: 'Kelas X — Fondasi Jaringan dan Fiber Optik',
+        desc: 'Fokus pada konsep jaringan, perangkat, pengalamatan IP, RouterOS dasar, keselamatan kerja, dan pengenalan media fiber optik.',
+        modules: [
+          ['MikroTik','Dasar Jaringan Komputer','Memahami LAN, WAN, internet, topologi, media transmisi, bandwidth, latency, dan perangkat jaringan.',['LAN/WAN dan internet','Topologi bus, star, ring, mesh','Hub, switch, router, access point'],4],
+          ['MikroTik','Model OSI dan TCP/IP','Menganalisis proses komunikasi data berdasarkan lapisan protokol.',['7 lapisan OSI','Model TCP/IP','Enkapsulasi dan decapsulation','Protokol utama: ARP, ICMP, TCP, UDP'],4],
+          ['MikroTik','IPv4 dan Subnetting Dasar','Menentukan network ID, host ID, subnet mask, broadcast, dan rentang host.',['IP public dan private','CIDR','Subnet /24 sampai /30','Latihan perhitungan subnet'],6],
+          ['MikroTik','Pengenalan MikroTik RouterOS','Mengenal produk MikroTik, lisensi, RouterBOARD, CHR, dan metode akses.',['RouterOS dan RouterBOARD','Winbox, WebFig, SSH, terminal','Safe Mode dan reset configuration'],4],
+          ['MikroTik','Konfigurasi Awal Router','Melakukan konfigurasi identitas, user, waktu, interface, dan backup.',['Identity dan timezone','User management','Rename interface','Backup dan export'],5],
+          ['MikroTik','IP Address, Route, dan DNS','Membangun konektivitas dasar antara LAN, router, dan internet.',['IP address pada interface','Default route','DNS server dan allow-remote-requests','Ping dan traceroute'],6],
+          ['MikroTik','DHCP Server dan DHCP Client','Mendistribusikan alamat IP otomatis pada jaringan lokal.',['DHCP client WAN','DHCP server setup','Pool, network, lease','Static lease'],5],
+          ['MikroTik','NAT Dasar','Menghubungkan jaringan private ke internet menggunakan source NAT.',['Konsep NAT','Masquerade','Chain srcnat','Pengujian akses internet'],4],
+          ['MikroTik','Firewall Dasar','Memahami packet flow dan membuat filter rule sederhana.',['Chain input, forward, output','Accept, drop, reject','Connection state','Proteksi akses router'],6],
+          ['Fiber Optik','Pengenalan Fiber Optik','Memahami prinsip rambatan cahaya dan keunggulan fiber dibanding tembaga.',['Core, cladding, coating','Singlemode dan multimode','Sumber cahaya LED dan laser','Kelebihan dan keterbatasan'],4],
+          ['Fiber Optik','Jenis Kabel dan Kode Warna','Mengidentifikasi konstruksi kabel, jumlah core, dan standar warna.',['Drop cable, duct, aerial, indoor','Loose tube dan tight-buffered','Kode warna 12 core','Label dan identifikasi kabel'],5],
+          ['Fiber Optik','Konektor dan Perangkat Pasif','Mengenal SC, LC, FC, ST, adaptor, pigtail, patch cord, splitter, ODF, ODC, dan ODP.',['PC, UPC, APC','Pigtail dan patch cord','PLC splitter','Manajemen kabel'],5],
+          ['Fiber Optik','K3 dan Perawatan Alat','Menerapkan keselamatan kerja saat menangani kabel dan alat optik.',['Bahaya laser','Penanganan serpihan serat','Pembersihan konektor','Perawatan cleaver dan splicer'],4],
+          ['Project','Proyek Kelas X: LAN Dasar + Simulasi FO','Membuat jaringan dua segmen sederhana dan poster jalur distribusi fiber.',['Topologi dan tabel IP','Konfigurasi DHCP dan NAT','Simulasi ODC–ODP–pelanggan','Laporan dan presentasi'],8]
+        ]
+      },
+      11: {
+        title: 'Kelas XI — Implementasi dan Layanan Jaringan',
+        desc: 'Fokus pada switching, routing, layanan pelanggan, keamanan menengah, pengukuran fiber, penyambungan, dan desain akses FTTH.',
+        modules: [
+          ['MikroTik','Bridge, VLAN, dan STP','Membangun segmentasi layer 2 serta mencegah loop jaringan.',['Bridge interface','VLAN tagged/untagged','PVID dan bridge VLAN filtering','RSTP/STP'],7],
+          ['MikroTik','Routing Statis dan Policy Route Dasar','Menghubungkan beberapa jaringan serta menentukan jalur berdasarkan kebijakan.',['Static route','Distance dan scope','Check gateway','Routing mark dasar'],6],
+          ['MikroTik','Routing Dinamis OSPF Dasar','Menerapkan pertukaran route otomatis pada beberapa router.',['Neighbor dan adjacency','Area backbone','Network advertisement','Cost dan troubleshooting'],8],
+          ['MikroTik','Wireless Dasar','Mengonfigurasi access point dan station dengan keamanan yang tepat.',['Band, channel, frequency','SSID dan security profile','AP bridge dan station','Signal, CCQ, noise floor'],6],
+          ['MikroTik','Hotspot Gateway','Membangun layanan autentikasi pengguna berbasis web.',['Hotspot setup','User profile','Walled garden','Limit uptime dan rate limit'],7],
+          ['MikroTik','PPPoE Server dan Client','Menyediakan layanan akses pelanggan dengan autentikasi PPP.',['PPP secret','Profile dan local/remote address','PPPoE server interface','Monitoring session'],7],
+          ['MikroTik','Manajemen Bandwidth','Mengatur kecepatan pengguna dan prioritas trafik.',['Simple queue','Target dan max-limit','Burst dasar','PCQ dasar'],7],
+          ['MikroTik','Firewall Menengah','Menerapkan proteksi jaringan menggunakan address-list, NAT, dan connection tracking.',['Address-list','Port forwarding dst-nat','FastTrack','Filter brute-force dasar'],8],
+          ['MikroTik','VPN Dasar','Mengenal tunnel untuk akses jarak jauh dan antarkantor.',['Konsep tunneling','L2TP/IPsec','WireGuard dasar','Remote access'],6],
+          ['Fiber Optik','Stripping, Cleaving, dan Fusion Splicing','Melakukan persiapan serat dan penyambungan dengan loss rendah.',['Stripping coating','Pembersihan alkohol isopropil','Sudut cleave','Arc test dan splice protection'],8],
+          ['Fiber Optik','Optical Power Meter dan Light Source','Mengukur daya optik dan redaman link secara end-to-end.',['dBm dan dB','Reference power','Insertion loss','Pencatatan hasil ukur'],6],
+          ['Fiber Optik','OTDR Dasar','Membaca trace OTDR untuk mengetahui panjang, event, sambungan, dan gangguan.',['Launch cable','Dead zone','Reflective/non-reflective event','Estimasi lokasi putus'],8],
+          ['Fiber Optik','Link Budget dan Power Budget','Menghitung kelayakan link berdasarkan loss kabel, konektor, splice, dan splitter.',['Attenuation serat','Connector loss','Splice loss','Safety margin'],7],
+          ['Fiber Optik','Desain Dasar FTTH','Merancang jaringan dari OLT menuju pelanggan.',['OLT, feeder, distribusi, drop','ODF, ODC, ODP','Splitter ratio','Homepass dan port utilization'],7],
+          ['Project','Proyek Kelas XI: Layanan Internet Sekolah','Membangun layanan internet tersegmentasi untuk guru, siswa, dan laboratorium.',['VLAN dan addressing','Hotspot/PPPoE','Bandwidth management','Dokumentasi FO dan link budget'],10]
+        ]
+      },
+      12: {
+        title: 'Kelas XII — Administrasi Lanjut dan Proyek Industri',
+        desc: 'Fokus pada jaringan skala menengah, redundansi, keamanan, monitoring, otomasi, IPv6, troubleshooting, serta perencanaan dan pemeliharaan fiber.',
+        modules: [
+          ['MikroTik','OSPF Lanjut dan Desain Area','Merancang OSPF multi-area dan mengendalikan pertukaran route.',['ABR dan area type','Route summarization','Default route injection','Filter routing'],8],
+          ['MikroTik','Pengenalan BGP','Memahami konsep autonomous system dan pertukaran route antardomain.',['ASN dan peering','eBGP dan iBGP','NLRI dan best path','Filter prefix dasar'],8],
+          ['MikroTik','Failover dan Load Balancing','Meningkatkan ketersediaan internet menggunakan beberapa jalur WAN.',['Recursive gateway','Netwatch failover','ECMP','PCC load balancing'],9],
+          ['MikroTik','QoS Lanjut','Mengendalikan trafik berdasarkan jenis layanan dan prioritas.',['Mangle packet/connection mark','Queue tree','PCQ classifier','Prioritas VoIP dan aplikasi'],9],
+          ['MikroTik','Hardening RouterOS','Mengurangi permukaan serangan dan mengamankan manajemen router.',['Update RouterOS dan firmware','Service restriction','Strong authentication','Firewall input dan logging'],7],
+          ['MikroTik','Monitoring dan Logging','Memantau performa, insiden, dan kapasitas jaringan.',['Graphing dan resource monitor','Syslog remote','SNMP','The Dude konsep dasar'],7],
+          ['MikroTik','Scripting dan Scheduler','Mengotomasi tugas administrasi dan respons insiden sederhana.',['Variabel dan conditional','Scheduler','Backup otomatis','Notifikasi dasar'],8],
+          ['MikroTik','IPv6 Dasar','Membangun addressing dan routing IPv6 pada RouterOS.',['Format alamat IPv6','Prefix /64','Neighbor discovery','Firewall IPv6'],7],
+          ['MikroTik','Troubleshooting Terstruktur','Menganalisis gangguan dari layer fisik hingga aplikasi.',['Metode divide and conquer','Torch dan sniffer','Log analysis','Dokumentasi akar masalah'],8],
+          ['Fiber Optik','Perencanaan Jalur dan Survey Lapangan','Menentukan rute kabel, titik distribusi, kapasitas, dan risiko instalasi.',['Site survey','Peta jalur dan koordinat','BoQ/BoM','Perizinan dan risiko'],7],
+          ['Fiber Optik','Instalasi Aerial, Duct, dan Indoor','Memilih metode pemasangan berdasarkan lingkungan dan standar kerja.',['Tiang dan sagging','Duct dan handhole','Bending radius','Cable management'],8],
+          ['Fiber Optik','OTDR Lanjut dan Analisis Gangguan','Membedakan event, macro-bending, dirty connector, high-loss splice, dan fiber break.',['Event table','Bidirectional test','Macrobend signature','Acceptance criteria'],9],
+          ['Fiber Optik','Pemeliharaan dan Dokumentasi As-Built','Membuat jadwal preventive maintenance dan dokumen jaringan aktual.',['Core assignment','Labeling','As-built drawing','Riwayat gangguan dan perbaikan'],7],
+          ['Fiber Optik','Quality Assurance Link Fiber','Menetapkan batas penerimaan hasil instalasi dan pengujian.',['Inspection connector','Insertion loss test','OTDR acceptance','Berita acara pengujian'],7],
+          ['Project','Proyek Akhir: Mini ISP/FTTH Terpadu','Merancang, mengimplementasikan, menguji, dan mempresentasikan jaringan akses berbasis MikroTik dan fiber optik.',['Analisis kebutuhan dan HLD/LLD','Routing, keamanan, QoS, monitoring','Desain ODC/ODP dan link budget','Uji layanan, dokumentasi, presentasi'],16]
+        ]
+      }
+    };
+
+    const quizzes = {
+      10: [
+        ['Fungsi utama default route adalah ...',['membatasi bandwidth','menentukan jalur ke jaringan yang tidak tercantum spesifik','membuat akun hotspot','mengubah MAC address'],1],
+        ['Chain firewall untuk melindungi router itu sendiri adalah ...',['input','forward','srcnat','dstnat'],0],
+        ['Konektor dengan poles hijau umumnya adalah ...',['SC/UPC','SC/APC','ST/PC','LC/PC'],1],
+        ['Perintah uji konektivitas paling dasar adalah ...',['export','ping','backup','reboot'],1],
+        ['Komponen tempat cahaya merambat pada fiber adalah ...',['jacket','strength member','core','coating'],2]
+      ],
+      11: [
+        ['PVID digunakan untuk ...',['menentukan VLAN bagi frame untagged','mengatur DNS','membuat route OSPF','mengukur redaman'],0],
+        ['Alat untuk menampilkan posisi event sepanjang link fiber adalah ...',['crimping tool','OTDR','LAN tester','spectrum analyzer'],1],
+        ['PPPoE terutama menyediakan ...',['autentikasi sesi pelanggan','pengukuran daya optik','routing antar-AS','enkripsi file'],0],
+        ['Nilai daya optik umumnya dinyatakan dalam ...',['dBm','volt','ampere','rpm'],0],
+        ['Simple Queue digunakan untuk ...',['routing dinamis','manajemen bandwidth','fusion splicing','membuat VLAN tag'],1]
+      ],
+      12: [
+        ['PCC pada MikroTik umum dipakai untuk ...',['load balancing','fusion splicing','membuat DHCP lease','mengukur panjang fiber'],0],
+        ['Protokol routing antar-autonomous system adalah ...',['OSPF','RIP','BGP','ARP'],2],
+        ['Dokumen yang menggambarkan kondisi jaringan setelah instalasi adalah ...',['as-built drawing','purchase order','user profile','routing table'],0],
+        ['Queue Tree biasanya memerlukan ...',['packet mark','ODP','DHCP relay','optical splitter'],0],
+        ['Pengujian OTDR dua arah membantu ...',['menghilangkan semua redaman','mengurangi efek perbedaan backscatter','mengganti konektor','menambah kapasitas core'],1]
+      ]
+    };
+
+    const glossary = [
+      ['RouterOS','Sistem operasi jaringan milik MikroTik untuk routing, firewall, VPN, QoS, dan layanan lainnya.'],
+      ['Winbox','Aplikasi konfigurasi grafis untuk perangkat MikroTik.'],
+      ['NAT','Translasi alamat jaringan antara jaringan private dan public.'],
+      ['VLAN','Pemisahan jaringan logis pada infrastruktur layer 2 yang sama.'],
+      ['OSPF','Protokol routing dinamis link-state dalam satu autonomous system.'],
+      ['BGP','Protokol pertukaran route antar-autonomous system.'],
+      ['QoS','Mekanisme pengendalian, pembagian, dan prioritas trafik.'],
+      ['FTTH','Fiber To The Home, jaringan fiber sampai ke rumah pelanggan.'],
+      ['OLT','Perangkat pusat pada jaringan PON yang melayani banyak pelanggan.'],
+      ['ODC','Optical Distribution Cabinet, titik distribusi utama fiber.'],
+      ['ODP','Optical Distribution Point, titik pembagian dekat pelanggan.'],
+      ['OTDR','Alat analisis event dan redaman sepanjang kabel fiber.'],
+      ['dBm','Satuan daya absolut berbasis logaritmik terhadap 1 mW.'],
+      ['dB','Satuan perbandingan gain atau loss.'],
+      ['Splicing','Proses penyambungan dua serat optik.'],
+      ['APC','Jenis poles konektor bersudut untuk menekan pantulan balik.']
+    ];
+
+    const gradePanels = document.getElementById('gradePanels');
+    const quizPanels = document.getElementById('quizPanels');
+    const glossaryGrid = document.getElementById('glossaryGrid');
+    let totalModules = 0;
+
+    Object.entries(curriculum).forEach(([grade, data], gradeIndex) => {
+      totalModules += data.modules.length;
+      const panel = document.createElement('div');
+      panel.className = `grade-panel ${gradeIndex === 0 ? 'active' : ''}`;
+      panel.dataset.grade = grade;
+      panel.innerHTML = `
+        <div class="grade-banner">
+          <div><h3>${data.title}</h3><p>${data.desc}</p></div>
+          <div class="progress-ring"><b id="progress-${grade}">0%</b><span>progres kelas</span></div>
+        </div>
+        <div class="module-grid">
+          ${data.modules.map((m, i) => {
+            const typeClass = m[0] === 'Fiber Optik' ? 'fiber' : m[0] === 'Project' ? 'project' : '';
+            return `<article class="module-card" data-search="${(m[0]+' '+m[1]+' '+m[2]+' '+m[3].join(' ')).toLowerCase()}">
+              <div class="module-top"><div><span class="badge ${typeClass}">${m[0]}</span><h4 style="margin-top:10px">${m[1]}</h4></div></div>
+              <div class="module-body"><p>${m[2]}</p><ul>${m[3].map(x=>`<li>${x}</li>`).join('')}</ul></div>
+              <div class="module-footer"><label class="complete"><input type="checkbox" data-progress="${grade}-${i}"> Selesai</label><a class="detail-link" href="#detail-${grade}-${i}">Baca materi</a><span class="duration">${m[4]} JP</span></div>
+            </article>`;
+          }).join('')}
+        </div>`;
+      gradePanels.appendChild(panel);
+    });
+
+    document.getElementById('moduleCount').textContent = totalModules;
+
+    Object.entries(quizzes).forEach(([grade, items], idx) => {
+      const box = document.createElement('div');
+      box.className = `quiz-box quiz-panel ${idx===0?'active':''}`;
+      box.dataset.quiz = grade;
+      box.style.display = idx===0 ? 'block' : 'none';
+      box.innerHTML = `<h3>Evaluasi Kelas ${grade === '10' ? 'X' : grade === '11' ? 'XI' : 'XII'}</h3>
+        <form id="quiz-${grade}">
+          ${items.map((q,i)=>`<div class="quiz-question"><strong>${i+1}. ${q[0]}</strong><div class="options">${q[1].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('')}</div></div>`).join('')}
+          <button type="button" class="btn" onclick="gradeQuiz('${grade}')">Periksa Nilai</button>
+          <div class="quiz-result" id="result-${grade}"></div>
+        </form>`;
+      quizPanels.appendChild(box);
+    });
+
+    glossary.forEach(g => {
+      const div = document.createElement('div');
+      div.className = 'term';
+      div.innerHTML = `<b>${g[0]}</b><p>${g[1]}</p>`;
+      glossaryGrid.appendChild(div);
+    });
+
+    const tabs = document.querySelectorAll('.tab[data-grade]');
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.grade-panel').forEach(p => p.classList.toggle('active', p.dataset.grade === tab.dataset.grade));
+    }));
+
+    document.querySelectorAll('.quiz-tab').forEach(tab => tab.addEventListener('click', () => {
+      document.querySelectorAll('.quiz-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.quiz-panel').forEach(p=> p.style.display = p.dataset.quiz === tab.dataset.quiz ? 'block' : 'none');
+    }));
+
+    function gradeQuiz(grade) {
+      const form = document.getElementById(`quiz-${grade}`);
+      let score = 0;
+      quizzes[grade].forEach((q,i) => {
+        const selected = form.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && Number(selected.value) === q[2]) score++;
+      });
+      const result = document.getElementById(`result-${grade}`);
+      result.style.display = 'block';
+      const percent = Math.round(score / quizzes[grade].length * 100);
+      result.textContent = `Nilai: ${score}/${quizzes[grade].length} (${percent}%). ${percent >= 80 ? 'Kompetensi baik.' : percent >= 60 ? 'Cukup, ulangi topik yang belum kuat.' : 'Perlu mempelajari materi kembali.'}`;
+    }
+
+
+    const allMaterialSearch = document.getElementById('allMaterialSearch');
+    const detailFilters = document.querySelectorAll('.detail-filter');
+    let activeDetailGrade = 'all';
+    let activeDetailType = 'all';
+
+    function filterDetailedMaterials() {
+      const keyword = allMaterialSearch.value.toLowerCase().trim();
+      let visible = 0;
+      document.querySelectorAll('.lesson-detail').forEach(item => {
+        const gradeOk = activeDetailGrade === 'all' || item.dataset.grade === activeDetailGrade;
+        const typeOk = activeDetailType === 'all' || item.dataset.type === activeDetailType;
+        const searchOk = !keyword || item.dataset.detailSearch.includes(keyword);
+        const show = gradeOk && typeOk && searchOk;
+        item.classList.toggle('hidden-detail', !show);
+        if (show) visible++;
+      });
+      document.querySelectorAll('.detail-grade-group').forEach(group => {
+        const hasVisible = [...group.querySelectorAll('.lesson-detail')].some(item => !item.classList.contains('hidden-detail'));
+        group.style.display = hasVisible ? 'block' : 'none';
+      });
+      document.getElementById('detailEmptyState').style.display = visible ? 'none' : 'block';
+    }
+
+    allMaterialSearch.addEventListener('input', filterDetailedMaterials);
+    detailFilters.forEach(button => button.addEventListener('click', () => {
+      if (button.dataset.detailFilter) {
+        activeDetailGrade = button.dataset.detailFilter;
+        activeDetailType = 'all';
+      } else {
+        activeDetailType = button.dataset.detailType;
+        activeDetailGrade = 'all';
+      }
+      detailFilters.forEach(b => b.classList.remove('active'));
+      button.classList.add('active');
+      filterDetailedMaterials();
+    }));
+
+    document.getElementById('openVisibleDetails').addEventListener('click', () => {
+      document.querySelectorAll('.lesson-detail:not(.hidden-detail)').forEach(item => item.open = true);
+    });
+    document.getElementById('closeAllDetails').addEventListener('click', () => {
+      document.querySelectorAll('.lesson-detail').forEach(item => item.open = false);
+    });
+
+    // Open a lesson automatically when the user follows a direct material link.
+    function openHashLesson() {
+      const hash = window.location.hash;
+      if (!hash.startsWith('#detail-')) return;
+      const lesson = document.querySelector(hash);
+      if (lesson) lesson.open = true;
+    }
+    window.addEventListener('hashchange', openHashLesson);
+    openHashLesson();
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const key = searchInput.value.toLowerCase().trim();
+      let visible = 0;
+      document.querySelectorAll('.module-card').forEach(card => {
+        const show = !key || card.dataset.search.includes(key);
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      document.getElementById('emptyState').style.display = visible ? 'none' : 'block';
+    });
+
+    document.getElementById('expandAll').addEventListener('click', (e) => {
+      const allOpen = [...document.querySelectorAll('.grade-panel')].every(p=>p.classList.contains('active'));
+      document.querySelectorAll('.grade-panel').forEach(p=>p.classList.toggle('active', !allOpen));
+      tabs.forEach(t=>t.classList.remove('active'));
+      if (allOpen) tabs[0].click();
+      e.currentTarget.textContent = allOpen ? 'Buka Semua Kelas' : 'Tampilkan Satu Kelas';
+    });
+
+    function updateProgress() {
+      Object.keys(curriculum).forEach(grade => {
+        const boxes = [...document.querySelectorAll(`input[data-progress^="${grade}-"]`)];
+        const done = boxes.filter(b=>b.checked).length;
+        document.getElementById(`progress-${grade}`).textContent = `${Math.round(done/boxes.length*100)}%`;
+      });
+    }
+
+    document.querySelectorAll('input[data-progress]').forEach(box => {
+      const key = `netfiber-${box.dataset.progress}`;
+      box.checked = localStorage.getItem(key) === '1';
+      box.addEventListener('change', () => {
+        localStorage.setItem(key, box.checked ? '1' : '0');
+        updateProgress();
+      });
+    });
+
+    document.getElementById('resetProgress').addEventListener('click', () => {
+      document.querySelectorAll('input[data-progress]').forEach(box => {
+        box.checked = false;
+        localStorage.removeItem(`netfiber-${box.dataset.progress}`);
+      });
+      updateProgress();
+    });
+
+    updateProgress();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
