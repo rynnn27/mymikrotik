@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Website materi pembelajaran Teknik Jaringan Kabel kelas XI dan Teknik Layanan Jaringan kelas XII dengan fokus fiber optik, fusion splicing, pengukuran, OTDR, dan troubleshooting." />
+  <meta name="theme-color" content="#0b6bcb" />
+  <title>FiberLab | Materi Teknik Jaringan Kabel & Layanan Jaringan</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">Lewati ke konten utama</a>
+
+  <header class="topbar">
+    <div class="brand-wrap">
+      <button class="icon-button menu-button" id="menuButton" aria-label="Buka navigasi" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="#beranda" aria-label="FiberLab - Beranda">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <path d="M6 24h15" />
+            <path d="M27 10v28" />
+            <path d="M21 24c8 0 8-14 15-14" />
+            <path d="M21 24c8 0 8 14 15 14" />
+            <circle cx="38" cy="10" r="3" />
+            <circle cx="38" cy="38" r="3" />
+          </svg>
+        </span>
+        <span>
+          <strong>FiberLab</strong>
+          <small>Teknik Jaringan</small>
+        </span>
+      </a>
+    </div>
+
+    <div class="top-actions">
+      <label class="global-search" for="globalSearch">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.8-3.8"></path></svg>
+        <input id="globalSearch" type="search" placeholder="Cari materi, alat, atau istilah…" autocomplete="off" />
+        <kbd>/</kbd>
+      </label>
+      <button class="icon-button" id="themeButton" aria-label="Aktifkan mode gelap" title="Ganti tema">
+        <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navigasi pembelajaran">
+      <div class="sidebar-inner">
+        <div class="class-switch" role="tablist" aria-label="Pilih kelas">
+          <button class="class-tab active" data-class-filter="all" role="tab" aria-selected="true">Semua</button>
+          <button class="class-tab" data-class-filter="xi" role="tab" aria-selected="false">Kelas XI</button>
+          <button class="class-tab" data-class-filter="xii" role="tab" aria-selected="false">Kelas XII</button>
+        </div>
+
+        <nav class="module-nav" id="moduleNav">
+          <p class="nav-label">PENGANTAR</p>
+          <a href="#beranda" class="nav-link active" data-nav-target="beranda">
+            <span class="nav-icon">⌂</span><span>Beranda</span>
+          </a>
+          <a href="#peta-belajar" class="nav-link" data-nav-target="peta-belajar">
+            <span class="nav-icon">◇</span><span>Peta Belajar</span>
+          </a>
+
+          <p class="nav-label">KELAS XI · TEKNIK JARINGAN KABEL</p>
+          <a href="#modul-1" class="nav-link" data-class="xi" data-nav-target="modul-1"><span class="module-number">01</span><span>Dasar Fiber Optik</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+          <a href="#modul-2" class="nav-link" data-class="xi" data-nav-target="modul-2"><span class="module-number">02</span><span>Kabel & Konektor</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+          <a href="#modul-3" class="nav-link" data-class="xi" data-nav-target="modul-3"><span class="module-number">03</span><span>Alat Kerja & K3</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+          <a href="#modul-4" class="nav-link" data-class="xi" data-nav-target="modul-4"><span class="module-number">04</span><span>Fusion Splicing</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+
+          <p class="nav-label">KELAS XII · TEKNIK LAYANAN JARINGAN</p>
+          <a href="#modul-5" class="nav-link" data-class="xii" data-nav-target="modul-5"><span class="module-number">05</span><span>Perangkat Pasif</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+          <a href="#modul-6" class="nav-link" data-class="xii" data-nav-target="modul-6"><span class="module-number">06</span><span>Pengukuran Jaringan</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+          <a href="#modul-7" class="nav-link" data-class="xii" data-nav-target="modul-7"><span class="module-number">07</span><span>Analisis OTDR</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+          <a href="#modul-8" class="nav-link" data-class="xii" data-nav-target="modul-8"><span class="module-number">08</span><span>Troubleshooting</span><span class="nav-check" aria-label="Belum selesai">○</span></a>
+
+          <p class="nav-label">EVALUASI</p>
+          <a href="#kuis" class="nav-link" data-nav-target="kuis"><span class="nav-icon">✓</span><span>Kuis Kompetensi</span></a>
+          <a href="#glosarium" class="nav-link" data-nav-target="glosarium"><span class="nav-icon">Aa</span><span>Glosarium</span></a>
+        </nav>
+
+        <div class="sidebar-progress">
+          <div class="progress-head"><span>Progres belajar</span><strong id="sidebarProgressText">0%</strong></div>
+          <div class="progress-track" aria-label="Progres pembelajaran"><span id="sidebarProgressBar"></span></div>
+          <small><span id="completedCount">0</span> dari 8 modul selesai</small>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" hidden></div>
+
+    <main id="mainContent" class="main-content">
+      <section id="beranda" class="hero content-section" data-section-title="Beranda">
+        <div class="hero-copy">
+          <span class="eyebrow">MEDIA PEMBELAJARAN INTERAKTIF</span>
+          <h1>Kuasai instalasi dan layanan jaringan <span>fiber optik</span> dari dasar hingga analisis gangguan.</h1>
+          <p>Materi terstruktur untuk Kelas XI Teknik Jaringan Kabel dan Kelas XII Teknik Layanan Jaringan, dilengkapi langkah kerja, K3, simulasi perhitungan, lembar praktik, dan evaluasi.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#peta-belajar">Mulai belajar</a>
+            <a class="button secondary" href="#kuis">Uji kompetensi</a>
+          </div>
+          <div class="hero-stats" aria-label="Ringkasan materi">
+            <div><strong>8</strong><span>Modul inti</span></div>
+            <div><strong>2</strong><span>Tingkat kelas</span></div>
+            <div><strong>16</strong><span>Soal evaluasi</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Ilustrasi struktur serat optik">
+          <div class="signal-card card-float top-card">
+            <span class="status-dot"></span>
+            <div><small>Status link</small><strong>OPTICAL OK</strong></div>
+            <span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          </div>
+          <svg class="fiber-illustration" viewBox="0 0 640 510" role="img" aria-labelledby="fiberTitle fiberDesc">
+            <title id="fiberTitle">Ilustrasi struktur fiber optik</title>
+            <desc id="fiberDesc">Potongan kabel fiber optik yang memperlihatkan coating, cladding, core, dan lintasan cahaya.</desc>
+            <defs>
+              <linearGradient id="outerGrad" x1="0" x2="1"><stop offset="0" stop-color="#0f2947"/><stop offset="1" stop-color="#183f69"/></linearGradient>
+              <linearGradient id="coatGrad" x1="0" x2="1"><stop offset="0" stop-color="#f3a712"/><stop offset="1" stop-color="#ffd166"/></linearGradient>
+              <linearGradient id="lightGrad" x1="0" x2="1"><stop offset="0" stop-color="#39d98a"/><stop offset="1" stop-color="#8fffc1"/></linearGradient>
+              <filter id="glow"><feGaussianBlur stdDeviation="6" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <path d="M80 132H394c82 0 148 66 148 148s-66 148-148 148H80z" fill="url(#outerGrad)"/>
+            <ellipse cx="394" cy="280" rx="148" ry="148" fill="#0b1d31"/>
+            <ellipse cx="394" cy="280" rx="116" ry="116" fill="url(#coatGrad)"/>
+            <ellipse cx="394" cy="280" rx="78" ry="78" fill="#d9f1ff"/>
+            <ellipse cx="394" cy="280" rx="36" ry="36" fill="#1f8cff"/>
+            <path d="M70 280h275" stroke="url(#lightGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+            <path d="M82 244l55 36 55-36 55 36 55-36 45 29" fill="none" stroke="#7dffc1" stroke-width="5" stroke-linejoin="round" filter="url(#glow)"/>
+            <g class="svg-label">
+              <path d="M430 262 548 188"/><circle cx="430" cy="262" r="4"/><text x="553" y="190">Core</text>
+              <path d="M455 229 555 130"/><circle cx="455" cy="229" r="4"/><text x="560" y="132">Cladding</text>
+              <path d="M485 206 534 75"/><circle cx="485" cy="206" r="4"/><text x="538" y="77">Coating</text>
+            </g>
+          </svg>
+          <div class="mini-card card-float bottom-card">
+            <span class="mini-icon">λ</span>
+            <div><small>Panjang gelombang</small><strong>1310 / 1550 nm</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="peta-belajar" class="content-section section-block" data-section-title="Peta Belajar">
+        <div class="section-heading">
+          <div><span class="eyebrow">ALUR KOMPETENSI</span><h2>Peta belajar dua tingkat</h2></div>
+          <p>Urutan disusun dari pemahaman komponen hingga kemampuan menemukan dan memperbaiki gangguan nyata.</p>
+        </div>
+
+        <div class="learning-path">
+          <article class="class-overview xi-card">
+            <div class="class-card-head">
+              <span class="class-badge xi">KELAS XI</span>
+              <span class="class-code">TJK</span>
+            </div>
+            <h3>Teknik Jaringan Kabel</h3>
+            <p>Membangun fondasi teknis dan keterampilan penyambungan fiber optik secara aman.</p>
+            <ol class="path-list">
+              <li><a href="#modul-1"><span>01</span><div><strong>Dasar Fiber Optik</strong><small>Struktur, cahaya, SM dan MM</small></div></a></li>
+              <li><a href="#modul-2"><span>02</span><div><strong>Kabel & Konektor</strong><small>Jenis, warna, ferrule dan identifikasi</small></div></a></li>
+              <li><a href="#modul-3"><span>03</span><div><strong>Alat Kerja & K3</strong><small>Stripper, cleaver, splicer dan APD</small></div></a></li>
+              <li><a href="#modul-4"><span>04</span><div><strong>Fusion Splicing</strong><small>Persiapan, penyambungan dan proteksi</small></div></a></li>
+            </ol>
+          </article>
+
+          <div class="path-connector" aria-hidden="true"><span>LANJUT</span></div>
+
+          <article class="class-overview xii-card">
+            <div class="class-card-head">
+              <span class="class-badge xii">KELAS XII</span>
+              <span class="class-code">TLJ</span>
+            </div>
+            <h3>Teknik Layanan Jaringan</h3>
+            <p>Mengembangkan kompetensi instalasi, pengukuran, analisis, dan pemulihan layanan.</p>
+            <ol class="path-list" start="5">
+              <li><a href="#modul-5"><span>05</span><div><strong>Perangkat Pasif</strong><small>OTB, ODP, splitter dan cable dressing</small></div></a></li>
+              <li><a href="#modul-6"><span>06</span><div><strong>Pengukuran Jaringan</strong><small>VFL, OPM dan link loss budget</small></div></a></li>
+              <li><a href="#modul-7"><span>07</span><div><strong>Analisis OTDR</strong><small>Parameter, event dan titik putus</small></div></a></li>
+              <li><a href="#modul-8"><span>08</span><div><strong>Troubleshooting</strong><small>Diagnosis, pembersihan dan repair splice</small></div></a></li>
+            </ol>
+          </article>
+        </div>
+
+        <div class="competency-note">
+          <span class="note-icon">!</span>
+          <div><strong>Catatan terminologi kabel</strong><p>“Dropcore” adalah istilah lapangan untuk kabel drop menuju pelanggan, bukan otomatis berarti kabel indoor. Penentuan indoor, duct, atau aerial harus mengacu pada konstruksi, rating selubung, ketahanan UV/air, dan metode pemasangan yang tercantum pada spesifikasi kabel.</p></div>
+        </div>
+      </section>
+
+      <!-- MODULE 1 -->
+      <section id="modul-1" class="content-section module-section" data-class="xi" data-module="1" data-section-title="Dasar Fiber Optik">
+        <div class="module-banner xi-banner">
+          <div class="module-index">01</div>
+          <div><span class="class-badge xi">KELAS XI · TJK</span><h2>Dasar Fiber Optik</h2><p>Memahami struktur serat, prinsip perambatan cahaya, dan perbedaan jenis serat.</p></div>
+          <button class="complete-button" data-complete-module="1"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>1. Struktur dasar serat optik</h3>
+              <p>Serat optik membawa informasi dalam bentuk pulsa cahaya. Tiga lapisan utamanya bekerja sebagai satu sistem:</p>
+              <div class="layer-grid">
+                <div class="layer-card core-card"><span class="layer-dot"></span><h4>Core</h4><p>Bagian kaca sangat murni di pusat serat sebagai jalur utama rambatan cahaya.</p></div>
+                <div class="layer-card cladding-card"><span class="layer-dot"></span><h4>Cladding</h4><p>Lapisan kaca dengan indeks bias lebih rendah yang menjaga cahaya tetap terpandu di dalam core.</p></div>
+                <div class="layer-card coating-card"><span class="layer-dot"></span><h4>Coating</h4><p>Lapisan polimer pelindung terhadap kelembapan, goresan, dan tekanan mekanis ringan.</p></div>
+              </div>
+              <div class="callout info"><strong>Ingat:</strong> cladding berperan dalam pemanduan cahaya, sedangkan coating berfungsi terutama sebagai perlindungan mekanis.</div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>2. Prinsip pemantulan internal total</h3>
+              <p>Pemantulan internal total terjadi ketika cahaya bergerak dari medium berindeks bias lebih tinggi (core) menuju medium berindeks bias lebih rendah (cladding) dan mengenai batas antarmedium dengan sudut yang memenuhi syarat. Cahaya dipantulkan kembali ke core sehingga dapat merambat sepanjang serat.</p>
+              <div class="tir-demo" aria-label="Diagram pemantulan internal total">
+                <div class="tir-core"><span class="ray ray-1"></span><span class="ray ray-2"></span><span class="ray ray-3"></span></div>
+                <div class="tir-label top">CLADDING · n₂ lebih rendah</div>
+                <div class="tir-label middle">CORE · n₁ lebih tinggi</div>
+                <div class="tir-label bottom">CLADDING · n₂ lebih rendah</div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>3. Single Mode dan Multi Mode</h3>
+              <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                  <thead><tr><th>Aspek</th><th>Single Mode (SM)</th><th>Multi Mode (MM)</th></tr></thead>
+                  <tbody>
+                    <tr><td>Diameter core umum</td><td>±9 µm</td><td>50 µm atau 62,5 µm</td></tr>
+                    <tr><td>Lintasan cahaya</td><td>Satu mode dominan</td><td>Banyak mode/ray</td></tr>
+                    <tr><td>Sumber cahaya</td><td>Laser</td><td>LED atau VCSEL</td></tr>
+                    <tr><td>Panjang gelombang umum</td><td>1310 dan 1550 nm</td><td>850 dan 1300 nm</td></tr>
+                    <tr><td>Penggunaan tipikal</td><td>Backbone, metro, FTTH, jarak panjang</td><td>LAN gedung dan pusat data jarak pendek-menengah</td></tr>
+                    <tr><td>Ciri visual jaket*</td><td>Kuning sering digunakan</td><td>Oranye/aqua sering digunakan</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <small class="table-note">*Warna jaket membantu identifikasi, tetapi keputusan teknis tetap harus berdasarkan label dan spesifikasi kabel.</small>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Mengidentifikasi core, cladding, dan coating.</li><li>Menjelaskan pemantulan internal total.</li><li>Membandingkan Single Mode dan Multi Mode.</li></ul></div>
+            <div class="aside-card key-facts"><h3>Istilah kunci</h3><div class="tag-cloud"><span>indeks bias</span><span>attenuation</span><span>mode</span><span>core</span><span>cladding</span><span>wavelength</span></div></div>
+            <div class="aside-card checkpoint"><h3>Cek pemahaman</h3><p>Mengapa coating tidak dianggap sebagai lapisan pemandu cahaya?</p><details><summary>Lihat jawaban</summary><p>Karena pemanduan cahaya terjadi pada antarmuka core–cladding akibat perbedaan indeks bias. Coating melindungi kaca secara mekanis.</p></details></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MODULE 2 -->
+      <section id="modul-2" class="content-section module-section" data-class="xi" data-module="2" data-section-title="Kabel dan Konektor Fiber Optik">
+        <div class="module-banner xi-banner">
+          <div class="module-index">02</div>
+          <div><span class="class-badge xi">KELAS XI · TJK</span><h2>Jenis Kabel dan Konektor Fiber Optik</h2><p>Mengenali konstruksi kabel, kode warna, bentuk konektor, dan jenis polish ferrule.</p></div>
+          <button class="complete-button" data-complete-module="2"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>1. Kabel indoor, duct, dan aerial</h3>
+              <div class="cable-cards">
+                <div class="cable-card"><span class="cable-icon indoor-icon">⌂</span><h4>Indoor</h4><p>Dirancang untuk lingkungan gedung. Umumnya mengutamakan fleksibilitas dan persyaratan keselamatan selubung seperti LSZH atau flame-retardant.</p><ul><li>Tidak selalu tahan UV atau genangan.</li><li>Digunakan pada rack, riser, tray, dan jalur dalam gedung.</li></ul></div>
+                <div class="cable-card"><span class="cable-icon duct-icon">▰</span><h4>Outdoor duct</h4><p>Ditarik atau ditiup di dalam duct bawah tanah. Memerlukan ketahanan kelembapan dan gaya tarik sesuai desain.</p><ul><li>Dapat memakai water-blocking.</li><li>Perhatikan pulling tension dan radius tekuk.</li></ul></div>
+                <div class="cable-card"><span class="cable-icon aerial-icon">⌁</span><h4>Outdoor aerial</h4><p>Dipasang pada tiang, memakai messenger terpisah atau konstruksi self-supporting seperti figure-8/ADSS.</p><ul><li>Tahan UV dan cuaca.</li><li>Perhatikan sag, span, angin, dan grounding bila ada elemen logam.</li></ul></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>2. Kode warna serat — urutan 12 warna</h3>
+              <p>Urutan warna yang lazim digunakan untuk identifikasi serat dan buffer tube mengikuti skema TIA/EIA-598. Setelah 12 warna, penomoran dapat diulang dengan penanda tambahan sesuai konstruksi pabrikan.</p>
+              <div class="color-code-grid" aria-label="Urutan kode warna serat optik">
+                <div style="--fiber:#0067b1"><span>1</span><strong>Biru</strong></div>
+                <div style="--fiber:#f58220"><span>2</span><strong>Jingga</strong></div>
+                <div style="--fiber:#199447"><span>3</span><strong>Hijau</strong></div>
+                <div style="--fiber:#8b572a"><span>4</span><strong>Cokelat</strong></div>
+                <div style="--fiber:#7f8790"><span>5</span><strong>Abu-abu</strong></div>
+                <div style="--fiber:#f5f5f5"><span>6</span><strong>Putih</strong></div>
+                <div style="--fiber:#e53935"><span>7</span><strong>Merah</strong></div>
+                <div style="--fiber:#1f2328"><span>8</span><strong>Hitam</strong></div>
+                <div style="--fiber:#ffd600"><span>9</span><strong>Kuning</strong></div>
+                <div style="--fiber:#8e44ad"><span>10</span><strong>Ungu</strong></div>
+                <div style="--fiber:#e78ab0"><span>11</span><strong>Merah muda</strong></div>
+                <div style="--fiber:#00bcd4"><span>12</span><strong>Aqua</strong></div>
+              </div>
+              <div class="memory-tip"><strong>Latihan cepat:</strong> Tutup nama warna, lalu sebutkan warna berdasarkan nomor serat. Ulangi hingga urutan 1–12 dapat dikenali tanpa melihat daftar.</div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>3. Perbedaan konektor SC, LC, FC, dan ST</h3>
+              <div class="connector-grid">
+                <div class="connector-card"><div class="connector-shape sc-shape"><span></span></div><h4>SC</h4><p><strong>Push-pull</strong>, badan persegi, ferrule 2,5 mm. Umum pada ODF/OTB dan jaringan akses.</p></div>
+                <div class="connector-card"><div class="connector-shape lc-shape"><span></span></div><h4>LC</h4><p><strong>Latch kecil</strong>, ferrule 1,25 mm. Padat dan umum pada SFP serta panel berkapasitas tinggi.</p></div>
+                <div class="connector-card"><div class="connector-shape fc-shape"><span></span></div><h4>FC</h4><p><strong>Ulir</strong>, ferrule 2,5 mm. Stabil terhadap getaran, banyak dijumpai pada instrumen lama/lab.</p></div>
+                <div class="connector-card"><div class="connector-shape st-shape"><span></span></div><h4>ST</h4><p><strong>Bayonet</strong>, ferrule 2,5 mm. Diputar dan dikunci; banyak ditemukan pada instalasi lama.</p></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>4. Ferrule UPC dan APC</h3>
+              <div class="polish-comparison">
+                <div class="polish-card upc"><div class="ferrule-demo flat"></div><div><span class="polish-label">UPC · BIRU</span><h4>Ultra Physical Contact</h4><p>Ujung ferrule dipoles cembung tanpa sudut. Umum untuk data dan transmisi digital.</p></div></div>
+                <div class="vs-badge">VS</div>
+                <div class="polish-card apc"><div class="ferrule-demo angled"></div><div><span class="polish-label">APC · HIJAU</span><h4>Angled Physical Contact</h4><p>Ujung ferrule dipoles miring, umumnya 8°, untuk menekan pantulan balik.</p></div></div>
+              </div>
+              <div class="callout warning"><strong>Jangan dikawinkan:</strong> UPC dan APC tidak boleh disambungkan langsung karena geometri permukaan berbeda, dapat menimbulkan rugi tinggi dan berisiko merusak end-face. Warna biru/hijau adalah konvensi identifikasi; tetap periksa label perangkat.</div>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Membedakan kabel indoor, duct, dan aerial.</li><li>Mengurutkan 12 kode warna serat.</li><li>Mengidentifikasi konektor dari bentuk fisiknya.</li><li>Membedakan UPC dan APC.</li></ul></div>
+            <div class="aside-card practice"><h3>Tugas identifikasi</h3><p>Foto atau amati panel fiber di laboratorium. Catat jenis konektor, warna adapter, jenis kabel, dan label port tanpa mencabut konektor aktif.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MODULE 3 -->
+      <section id="modul-3" class="content-section module-section" data-class="xi" data-module="3" data-section-title="Alat Kerja dan K3 Fiber Optik">
+        <div class="module-banner xi-banner">
+          <div class="module-index">03</div>
+          <div><span class="class-badge xi">KELAS XI · TJK</span><h2>Alat Kerja dan K3 Fiber Optik</h2><p>Menggunakan alat sesuai fungsi dan menerapkan prosedur keselamatan kerja.</p></div>
+          <button class="complete-button" data-complete-module="3"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>1. Stripper dan cleaver: fungsi tidak boleh tertukar</h3>
+              <div class="tool-compare">
+                <div class="tool-card"><div class="tool-visual stripper-visual"><span></span><i></i></div><div><span class="tool-label">PENGUPAS</span><h4>Fiber stripper</h4><p>Mengupas jacket, buffer, atau coating sesuai slot dan ukuran alat. Tekanan berlebih dapat menggores cladding dan menyebabkan serat rapuh.</p><ol><li>Pilih slot yang tepat.</li><li>Tarik lurus, tidak diputar berlebihan.</li><li>Periksa apakah coating terangkat bersih.</li></ol></div></div>
+                <div class="tool-card"><div class="tool-visual cleaver-visual"><span></span><i></i></div><div><span class="tool-label">PEMOTONG PRESISI</span><h4>Precision cleaver</h4><p>Membuat permukaan potong hampir tegak lurus dan rata sebelum fusion splicing. Cleaver bukan alat pemotong jacket.</p><ol><li>Atur panjang cleave.</li><li>Letakkan serat lurus pada holder.</li><li>Tutup clamp dan jalankan blade satu kali.</li></ol></div></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>2. Persiapan fusion splicer</h3>
+              <ol class="process-list">
+                <li><span>01</span><div><h4>Periksa kondisi alat</h4><p>Pastikan baterai cukup, electrode tidak melewati batas pemakaian, heater bersih, dan V-groove bebas debu.</p></div></li>
+                <li><span>02</span><div><h4>Pilih program serat</h4><p>Gunakan mode yang sesuai dengan jenis serat, misalnya SM G.652/G.657 atau MM. Jangan memilih hanya berdasarkan kebiasaan.</p></div></li>
+                <li><span>03</span><div><h4>Lakukan arc calibration</h4><p>Kalibrasi busur bila alat berpindah lokasi, berubah ketinggian/suhu, electrode diganti, atau hasil splice tidak konsisten.</p></div></li>
+                <li><span>04</span><div><h4>Siapkan area kerja</h4><p>Gunakan meja stabil, pencahayaan cukup, wadah limbah tertutup, tisu bebas serat, dan alkohol isopropil yang sesuai.</p></div></li>
+              </ol>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>3. APD dan keselamatan laser</h3>
+              <div class="safety-grid">
+                <div><span>◉</span><h4>Kacamata pelindung</h4><p>Melindungi mata dari serpihan kaca. Bukan pengganti prosedur keselamatan laser.</p></div>
+                <div><span>✋</span><h4>Area kerja terkendali</h4><p>Jangan makan atau minum. Bersihkan meja dengan metode yang tidak menyebarkan serpihan.</p></div>
+                <div><span>↯</span><h4>Jangan melihat ujung serat</h4><p>Sinyal inframerah dapat tidak terlihat. Verifikasi status dengan power meter, bukan mata.</p></div>
+                <div><span>▣</span><h4>Wadah limbah khusus</h4><p>Masukkan potongan serat ke wadah tertutup dan tahan tusuk segera setelah cleaving.</p></div>
+              </div>
+              <div class="callout danger"><strong>Bahaya utama:</strong> potongan serat sangat kecil, tajam, dan sulit terlihat. Serpihan dapat masuk ke kulit atau mata. Jangan menyapu dengan tangan dan jangan membuangnya ke tempat sampah terbuka.</div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>4. Checklist sebelum praktik</h3>
+              <div class="checklist" data-persist-checklist="k3">
+                <label><input type="checkbox" /> Area kerja bersih dan terang</label>
+                <label><input type="checkbox" /> Kacamata pelindung digunakan</label>
+                <label><input type="checkbox" /> Wadah limbah serat tersedia</label>
+                <label><input type="checkbox" /> Splicer dan cleaver diperiksa</label>
+                <label><input type="checkbox" /> Sumber optik dipastikan aman/nonaktif</label>
+                <label><input type="checkbox" /> Alkohol dan tisu bebas serat tersedia</label>
+              </div>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Menggunakan stripper dan cleaver secara tepat.</li><li>Menyiapkan fusion splicer.</li><li>Menerapkan APD dan penanganan limbah.</li></ul></div>
+            <div class="aside-card rule-card"><h3>Aturan emas K3</h3><p class="big-rule">Tidak pernah melihat langsung ke ujung fiber atau port optik.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MODULE 4 -->
+      <section id="modul-4" class="content-section module-section" data-class="xi" data-module="4" data-section-title="Penyambungan Fiber Optik">
+        <div class="module-banner xi-banner">
+          <div class="module-index">04</div>
+          <div><span class="class-badge xi">KELAS XI · TJK</span><h2>Penyambungan Fiber Optik (Fusion Splicing)</h2><p>Melaksanakan tahapan splicing dari pengupasan hingga pemasangan protection sleeve.</p></div>
+          <button class="complete-button" data-complete-module="4"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>Alur kerja fusion splicing</h3>
+              <div class="splice-timeline">
+                <div class="splice-step"><span>1</span><div><h4>Pasang sleeve</h4><p>Masukkan heat-shrink protection sleeve ke salah satu sisi sebelum serat disambung.</p></div></div>
+                <div class="splice-step"><span>2</span><div><h4>Kupas</h4><p>Kupas jacket/buffer sesuai kebutuhan, lalu kupas coating dengan stripper yang tepat.</p></div></div>
+                <div class="splice-step"><span>3</span><div><h4>Bersihkan</h4><p>Usap serat dengan tisu bebas serat dan isopropil dari pangkal ke ujung satu arah.</p></div></div>
+                <div class="splice-step"><span>4</span><div><h4>Cleave</h4><p>Potong presisi dengan panjang sesuai holder/splicer. Jangan menyentuh ujung hasil cleave.</p></div></div>
+                <div class="splice-step"><span>5</span><div><h4>Fusion</h4><p>Letakkan serat pada V-groove, tutup wind protector, verifikasi citra, lalu jalankan arc.</p></div></div>
+                <div class="splice-step"><span>6</span><div><h4>Evaluasi</h4><p>Periksa bentuk sambungan dan estimasi splice loss. Ulangi bila terdapat bubble, garis tebal, atau offset.</p></div></div>
+                <div class="splice-step"><span>7</span><div><h4>Proteksi</h4><p>Geser sleeve ke tengah sambungan, panaskan di heater, lalu tata pada splice tray tanpa tekukan tajam.</p></div></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>Menilai kualitas cleave dan splice</h3>
+              <div class="quality-grid">
+                <div class="quality-card good"><span class="quality-icon">✓</span><h4>Baik</h4><ul><li>Ujung serat bersih dan rata.</li><li>Sudut cleave dalam batas alat.</li><li>Tidak ada gap/offset nyata.</li><li>Estimasi loss memenuhi batas proyek.</li></ul></div>
+                <div class="quality-card bad"><span class="quality-icon">×</span><h4>Perlu diulang</h4><ul><li>Ujung miring atau pecah.</li><li>Ada debu pada V-groove.</li><li>Muncul bubble atau necking.</li><li>Loss tinggi atau tidak stabil.</li></ul></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>Nilai redaman sambungan</h3>
+              <p>Fusion splicer memberikan <em>estimasi</em> loss berdasarkan citra/geometri serat, bukan pengukuran end-to-end. Batas penerimaan harus mengikuti spesifikasi proyek. Untuk latihan sekolah, target awal <strong>≤ 0,10 dB per splice</strong> dapat dipakai sebagai batas kerja, tetapi hasil tetap perlu diverifikasi dengan OPM/OLTS atau OTDR bila tersedia.</p>
+              <div class="metric-row">
+                <div><span class="metric-value">≤0,10 dB</span><span class="metric-label">Target latihan per splice</span></div>
+                <div><span class="metric-value">0 bubble</span><span class="metric-label">Cacat visual</span></div>
+                <div><span class="metric-value">100%</span><span class="metric-label">Sleeve terpasang</span></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>Lembar observasi praktik</h3>
+              <div class="practice-table-wrap">
+                <table class="practice-table"><thead><tr><th>Percobaan</th><th>Sudut cleave</th><th>Estimasi loss</th><th>Visual splice</th><th>Keputusan</th></tr></thead><tbody><tr><td>1</td><td contenteditable="true">…</td><td contenteditable="true">… dB</td><td contenteditable="true">…</td><td contenteditable="true">Terima / Ulangi</td></tr><tr><td>2</td><td contenteditable="true">…</td><td contenteditable="true">… dB</td><td contenteditable="true">…</td><td contenteditable="true">Terima / Ulangi</td></tr><tr><td>3</td><td contenteditable="true">…</td><td contenteditable="true">… dB</td><td contenteditable="true">…</td><td contenteditable="true">Terima / Ulangi</td></tr></tbody></table>
+              </div>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Menyiapkan serat dengan bersih.</li><li>Melakukan cleaving presisi.</li><li>Menjalankan fusion splicer.</li><li>Memasang protection sleeve.</li></ul></div>
+            <div class="aside-card mistake-card"><h3>Kesalahan umum</h3><ul><li>Lupa memasang sleeve sebelum splice.</li><li>Menyentuh ujung serat setelah cleave.</li><li>Menggunakan tisu berulang kali.</li><li>Memaksa hasil splice dengan loss tinggi.</li></ul></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MODULE 5 -->
+      <section id="modul-5" class="content-section module-section" data-class="xii" data-module="5" data-section-title="Instalasi Perangkat Pasif">
+        <div class="module-banner xii-banner">
+          <div class="module-index">05</div>
+          <div><span class="class-badge xii">KELAS XII · TLJ</span><h2>Instalasi Perangkat Pasif Jaringan FO</h2><p>Memasang OTB, ODP, optical splitter, dan menata kabel di joint closure.</p></div>
+          <button class="complete-button" data-complete-module="5"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>1. Fungsi perangkat pasif</h3>
+              <div class="passive-grid">
+                <div class="passive-card"><span class="passive-code">OTB</span><h4>Optical Termination Box</h4><p>Titik terminasi kabel fiber pada rack atau dinding. Menampung adapter, pigtail, splice tray, dan manajemen slack.</p></div>
+                <div class="passive-card"><span class="passive-code">ODP</span><h4>Optical Distribution Point</h4><p>Titik distribusi dekat pelanggan. Menghubungkan kabel distribusi ke kabel drop melalui adapter atau splitter.</p></div>
+                <div class="passive-card"><span class="passive-code">SPL</span><h4>Optical Splitter</h4><p>Membagi daya optik satu input ke beberapa output secara pasif, misalnya 1:8 atau 1:16.</p></div>
+                <div class="passive-card"><span class="passive-code">JC</span><h4>Joint Closure</h4><p>Melindungi sambungan kabel dan splice tray dari lingkungan serta menyediakan ruang manajemen serat.</p></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>2. Pemasangan OTB di rack server</h3>
+              <ol class="install-steps">
+                <li><strong>Rencanakan posisi.</strong><span>Pilih unit rack yang mudah diakses, tidak mengganggu airflow, dan dekat jalur masuk kabel.</span></li>
+                <li><strong>Pasang dan lakukan grounding.</strong><span>Kencangkan OTB; hubungkan grounding bila chassis atau kabel memiliki elemen logam sesuai desain.</span></li>
+                <li><strong>Masukkan kabel.</strong><span>Gunakan gland/clamp, pertahankan radius tekuk, dan amankan strength member pada titik yang tepat.</span></li>
+                <li><strong>Splice pigtail.</strong><span>Tata sleeve pada splice tray, arahkan pigtail ke adapter tanpa tekanan pada konektor.</span></li>
+                <li><strong>Label dan dokumentasikan.</strong><span>Gunakan label port, nomor core, asal–tujuan, dan tanggal pekerjaan.</span></li>
+              </ol>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>3. Instalasi ODP dan splitter</h3>
+              <div class="network-diagram" aria-label="Diagram jaringan OLT menuju splitter dan pelanggan">
+                <div class="node main-node"><strong>OLT</strong><small>Central office</small></div><span class="line"></span>
+                <div class="node"><strong>ODC/ODF</strong><small>Distribusi</small></div><span class="line"></span>
+                <div class="node splitter-node"><strong>1:8 / 1:16</strong><small>Splitter</small></div>
+                <div class="branch-lines"><span></span><span></span><span></span><span></span></div>
+                <div class="customer-nodes"><div>ONT 1</div><div>ONT 2</div><div>ONT 3</div><div>ONT n</div></div>
+              </div>
+              <div class="two-col-text">
+                <div><h4>Prinsip pemasangan</h4><ul><li>Pastikan enclosure sesuai lingkungan dan tertutup rapat.</li><li>Jaga urutan core sesuai desain.</li><li>Jangan membuat tekukan mikro pada pigtail splitter.</li><li>Bersihkan konektor sebelum mating.</li></ul></div>
+                <div><h4>Implikasi splitter</h4><ul><li>Rasio lebih besar menghasilkan insertion loss lebih besar.</li><li>Port yang tidak dipakai harus diberi dust cap.</li><li>Posisi splitter harus tercatat pada diagram jaringan.</li><li>Nilai aktual mengikuti datasheet perangkat.</li></ul></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>4. Cable dressing di joint closure</h3>
+              <div class="dressing-rules">
+                <div><span>1</span><p>Ikuti jalur tray dan radius tekuk minimum pabrikan.</p></div>
+                <div><span>2</span><p>Pisahkan buffer tube aktif, cadangan, dan jalur ekspansi.</p></div>
+                <div><span>3</span><p>Jangan menjepit serat dengan cable tie terlalu kuat.</p></div>
+                <div><span>4</span><p>Letakkan splice sleeve pada holder, bukan di area lengkung.</p></div>
+                <div><span>5</span><p>Dokumentasikan nomor core, tray, dan arah kabel.</p></div>
+                <div><span>6</span><p>Lakukan inspeksi seal sebelum closure ditutup.</p></div>
+              </div>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Memasang OTB pada rack.</li><li>Menginstal ODP dan splitter.</li><li>Menata serat di joint closure.</li></ul></div>
+            <div class="aside-card field-note"><h3>Standar lapangan</h3><p>Selalu dahulukan drawing, method statement, dan datasheet perangkat proyek. Nilai radius tekuk, torsi, sealing, dan kapasitas tray tidak boleh ditebak.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MODULE 6 -->
+      <section id="modul-6" class="content-section module-section" data-class="xii" data-module="6" data-section-title="Pengukuran dan Pengujian Jaringan">
+        <div class="module-banner xii-banner">
+          <div class="module-index">06</div>
+          <div><span class="class-badge xii">KELAS XII · TLJ</span><h2>Pengukuran dan Pengujian Jaringan</h2><p>Menguji kontinuitas, mengukur daya optik, menghitung budget, dan mencatat hasil.</p></div>
+          <button class="complete-button" data-complete-module="6"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>1. VFL untuk kontinuitas dan fault lokal</h3>
+              <div class="vfl-panel">
+                <div class="vfl-device"><span class="laser-tip"></span><span class="button-dot"></span><strong>VFL</strong></div>
+                <div><p>Visual Fault Locator menyuntikkan cahaya merah tampak ke serat untuk membantu:</p><ul><li>Memastikan jalur serat secara sederhana.</li><li>Mencocokkan core pada kedua ujung.</li><li>Mendeteksi patahan atau tekukan tajam pada jarak dekat saat cahaya bocor.</li></ul><div class="callout warning compact"><strong>Batas:</strong> VFL bukan pengganti pengukuran loss dan tidak akurat untuk menentukan jarak gangguan panjang.</div></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>2. OPM: pilih wavelength dan reference dengan benar</h3>
+              <p>Pada Optical Power Meter, teknisi tidak “mengkalibrasi panjang gelombang” serat. Langkah yang benar adalah <strong>memilih wavelength pengukuran yang sama dengan sumber cahaya</strong> dan melakukan pengaturan reference/zero sesuai prosedur alat.</p>
+              <div class="opm-flow"><div><span>1</span><strong>Bersihkan konektor</strong><small>Inspect–clean–inspect</small></div><i>→</i><div><span>2</span><strong>Pilih λ</strong><small>Contoh 1310 nm</small></div><i>→</i><div><span>3</span><strong>Set reference</strong><small>Metode sesuai standar</small></div><i>→</i><div><span>4</span><strong>Ukur & simpan</strong><small>dBm atau dB</small></div></div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>3. Perhitungan link loss budget</h3>
+              <p>Budget pasif dapat dihitung dari total rugi kabel, konektor, splice, splitter, dan margin teknik:</p>
+              <div class="formula-box">Total loss = (panjang × redaman/km) + Σ loss konektor + Σ loss splice + Σ loss splitter + margin</div>
+
+              <div class="calculator-card" id="lossCalculator">
+                <div class="calculator-head"><div><span class="eyebrow">SIMULATOR</span><h4>Kalkulator Link Loss Budget</h4></div><button type="button" id="resetCalculator">Reset</button></div>
+                <div class="calc-grid">
+                  <label>Panjang kabel (km)<input type="number" id="cableLength" min="0" step="0.1" value="5" /></label>
+                  <label>Redaman kabel (dB/km)<input type="number" id="fiberAtt" min="0" step="0.01" value="0.35" /></label>
+                  <label>Jumlah konektor<input type="number" id="connectorCount" min="0" step="1" value="4" /></label>
+                  <label>Loss/konektor (dB)<input type="number" id="connectorLoss" min="0" step="0.01" value="0.30" /></label>
+                  <label>Jumlah splice<input type="number" id="spliceCount" min="0" step="1" value="6" /></label>
+                  <label>Loss/splice (dB)<input type="number" id="spliceLoss" min="0" step="0.01" value="0.10" /></label>
+                  <label>Loss splitter (dB)<input type="number" id="splitterLoss" min="0" step="0.1" value="10.5" /></label>
+                  <label>Margin teknik (dB)<input type="number" id="engineeringMargin" min="0" step="0.1" value="3" /></label>
+                </div>
+                <div class="calc-result"><div><span>Total estimasi loss</span><strong id="totalLoss">17.05 dB</strong></div><p id="calcBreakdown">Kabel 1.75 + konektor 1.20 + splice 0.60 + splitter 10.50 + margin 3.00</p></div>
+                <small>Nilai default adalah contoh latihan, bukan batas universal. Gunakan datasheet komponen dan desain sistem untuk pekerjaan nyata.</small>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>4. Pencatatan hasil pengukuran</h3>
+              <div class="practice-table-wrap">
+                <table class="practice-table result-log"><thead><tr><th>ID link</th><th>λ</th><th>Daya Tx</th><th>Daya Rx</th><th>Loss</th><th>Batas</th><th>Status</th></tr></thead><tbody><tr><td contenteditable="true">FO-01</td><td contenteditable="true">1310 nm</td><td contenteditable="true">… dBm</td><td contenteditable="true">… dBm</td><td contenteditable="true">… dB</td><td contenteditable="true">… dB</td><td contenteditable="true">PASS/FAIL</td></tr><tr><td contenteditable="true">FO-02</td><td contenteditable="true">1550 nm</td><td contenteditable="true">… dBm</td><td contenteditable="true">… dBm</td><td contenteditable="true">… dB</td><td contenteditable="true">… dB</td><td contenteditable="true">PASS/FAIL</td></tr></tbody></table>
+              </div>
+              <div class="callout info"><strong>Traceability:</strong> catat tanggal, teknisi, alat dan nomor seri, kondisi konektor, metode reference, arah pengukuran, wavelength, serta file hasil bila alat mendukung ekspor.</div>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Menggunakan VFL sesuai batasnya.</li><li>Mengatur wavelength OPM.</li><li>Menghitung link loss budget.</li><li>Mendokumentasikan hasil.</li></ul></div>
+            <div class="aside-card formula-note"><h3>dBm vs dB</h3><p><strong>dBm</strong> menyatakan level daya absolut. <strong>dB</strong> menyatakan selisih atau rugi relatif. Jangan menukar keduanya dalam laporan.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MODULE 7 -->
+      <section id="modul-7" class="content-section module-section" data-class="xii" data-module="7" data-section-title="Analisis OTDR">
+        <div class="module-banner xii-banner">
+          <div class="module-index">07</div>
+          <div><span class="class-badge xii">KELAS XII · TLJ</span><h2>Analisis OTDR</h2><p>Mengatur parameter, membaca event, menghitung loss, dan menentukan titik putus.</p></div>
+          <button class="complete-button" data-complete-module="7"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>1. Parameter utama OTDR</h3>
+              <div class="parameter-grid">
+                <div><span class="param-icon">↔</span><h4>Distance range</h4><p>Pilih sedikit lebih panjang dari link. Range terlalu pendek memotong ujung link; terlalu panjang mengurangi detail tampilan.</p></div>
+                <div><span class="param-icon">▮</span><h4>Pulse width</h4><p>Pulse pendek memberi resolusi event lebih baik tetapi jangkauan/dynamic range lebih kecil. Pulse panjang menjangkau lebih jauh dengan dead zone lebih besar.</p></div>
+                <div><span class="param-icon">λ</span><h4>Wavelength</h4><p>1310 dan 1550 nm umum untuk single mode. Perbandingan dua wavelength membantu mengidentifikasi bending.</p></div>
+                <div><span class="param-icon">n</span><h4>IOR / group index</h4><p>Nilai indeks yang salah menyebabkan kesalahan perhitungan jarak. Gunakan data pabrikan kabel bila tersedia.</p></div>
+                <div><span class="param-icon">⏱</span><h4>Acquisition time</h4><p>Waktu rata-rata lebih panjang dapat memperbaiki signal-to-noise, tetapi tidak menggantikan pemilihan range/pulse yang tepat.</p></div>
+                <div><span class="param-icon">⇥</span><h4>Launch & receive fiber</h4><p>Membantu mengevaluasi konektor pertama dan terakhir serta mengurangi keterbatasan dead zone.</p></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>2. Membaca grafik OTDR</h3>
+              <div class="otdr-chart" role="img" aria-label="Contoh trace OTDR dengan konektor, splice, bending, dan titik putus">
+                <div class="chart-y-label">Daya balik (dB)</div>
+                <div class="chart-x-label">Jarak (km)</div>
+                <svg viewBox="0 0 900 320" preserveAspectRatio="none">
+                  <defs><linearGradient id="traceFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27c689" stop-opacity=".26"/><stop offset="1" stop-color="#27c689" stop-opacity="0"/></linearGradient></defs>
+                  <g class="grid-lines"><path d="M70 40v230M230 40v230M390 40v230M550 40v230M710 40v230M870 40v230"/><path d="M70 40h800M70 98h800M70 156h800M70 214h800M70 270h800"/></g>
+                  <path class="trace-fill" d="M70 58 L95 95 L110 90 L205 112 L210 82 L220 115 L385 145 L392 158 L540 181 L545 194 L690 217 L704 100 L716 262 L870 270 L870 270 L70 270Z" fill="url(#traceFill)"/>
+                  <path class="trace-line" d="M70 58 L95 95 L110 90 L205 112 L210 82 L220 115 L385 145 L392 158 L540 181 L545 194 L690 217 L704 100 L716 262 L870 270"/>
+                  <g class="event-marker connector-event"><line x1="212" y1="75" x2="212" y2="285"/><circle cx="212" cy="83" r="7"/><text x="170" y="305">Konektor</text></g>
+                  <g class="event-marker splice-event"><line x1="390" y1="135" x2="390" y2="285"/><circle cx="390" cy="151" r="7"/><text x="360" y="305">Splice</text></g>
+                  <g class="event-marker bend-event"><line x1="543" y1="170" x2="543" y2="285"/><circle cx="543" cy="187" r="7"/><text x="510" y="305">Bending</text></g>
+                  <g class="event-marker break-event"><line x1="705" y1="90" x2="705" y2="285"/><circle cx="705" cy="102" r="7"/><text x="674" y="305">Putus</text></g>
+                </svg>
+              </div>
+              <div class="event-legend">
+                <div><span class="legend-symbol reflective"></span><p><strong>Event reflektif</strong>Konektor, mechanical splice, ujung terbuka, atau putus dapat menimbulkan spike.</p></div>
+                <div><span class="legend-symbol nonreflective"></span><p><strong>Event non-reflektif</strong>Fusion splice atau bending biasanya tampak sebagai langkah penurunan tanpa spike besar.</p></div>
+                <div><span class="legend-symbol slope"></span><p><strong>Slope serat</strong>Kemiringan trace menunjukkan redaman serat per satuan panjang.</p></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>3. Identifikasi splice dan bending</h3>
+              <div class="diagnostic-table-wrap"><table class="comparison-table diagnostic-table"><thead><tr><th>Ciri</th><th>Fusion splice</th><th>Macro-bending</th></tr></thead><tbody><tr><td>Bentuk event</td><td>Langkah loss non-reflektif</td><td>Langkah loss non-reflektif</td></tr><tr><td>Perbandingan wavelength</td><td>Cenderung relatif serupa</td><td>Biasanya loss lebih besar pada 1550/1625 nm daripada 1310 nm</td></tr><tr><td>Lokasi</td><td>Sesuai joint/closure</td><td>Sering dekat tikungan, tray, clamp, atau kabel terjepit</td></tr><tr><td>Tindakan</td><td>Evaluasi/re-splice bila melebihi batas</td><td>Perbaiki radius tekuk atau tekanan mekanis</td></tr></tbody></table></div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>4. Total loss dan lokasi titik putus</h3>
+              <div class="analysis-cards">
+                <div><span class="analysis-number">A</span><h4>Total loss link</h4><p>Gunakan marker A–B atau event table untuk membaca selisih level antara awal dan akhir link. Konfirmasi apakah launch/receive fiber dikecualikan sesuai tujuan pengujian.</p></div>
+                <div><span class="analysis-number">B</span><h4>Lokasi titik putus</h4><p>Posisi event akhir/reflektif dibaca sebagai jarak optik dari port OTDR. Koreksi IOR dan bandingkan dari arah berlawanan untuk meningkatkan ketepatan lokasi fisik.</p></div>
+              </div>
+              <div class="callout info"><strong>Praktik baik:</strong> pengujian dua arah membantu mengurangi bias pengukuran splice akibat perbedaan backscatter antarserat dan meningkatkan keyakinan diagnosis.</div>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Mengatur range dan pulse.</li><li>Mengidentifikasi event OTDR.</li><li>Menghitung total loss.</li><li>Menentukan jarak titik putus.</li></ul></div>
+            <div class="aside-card decision-card"><h3>Aturan pulse</h3><p><strong>Mulai pendek</strong> untuk detail dekat, lalu naikkan pulse bila ujung link belum terlihat dengan signal-to-noise yang memadai.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- MODULE 8 -->
+      <section id="modul-8" class="content-section module-section" data-class="xii" data-module="8" data-section-title="Troubleshooting Jaringan Fiber Optik">
+        <div class="module-banner xii-banner">
+          <div class="module-index">08</div>
+          <div><span class="class-badge xii">KELAS XII · TLJ</span><h2>Troubleshooting Jaringan Fiber Optik</h2><p>Mengisolasi gangguan, membersihkan konektor, dan melakukan repair splicing.</p></div>
+          <button class="complete-button" data-complete-module="8"><span>○</span> Tandai selesai</button>
+        </div>
+
+        <div class="module-layout">
+          <article class="lesson-content">
+            <div class="lesson-block searchable">
+              <h3>1. Alur diagnosis yang sistematis</h3>
+              <div class="troubleshoot-flow">
+                <div><span>1</span><strong>Verifikasi gejala</strong><small>LOS, daya rendah, flapping, atau putus total</small></div><i>→</i>
+                <div><span>2</span><strong>Cek dokumen</strong><small>Topologi, core, port, riwayat pekerjaan</small></div><i>→</i>
+                <div><span>3</span><strong>Inspect & clean</strong><small>Konektor sebelum pengukuran</small></div><i>→</i>
+                <div><span>4</span><strong>Uji sederhana</strong><small>VFL/OPM sesuai kondisi</small></div><i>→</i>
+                <div><span>5</span><strong>Lokalisasi</strong><small>OTDR dua arah bila memungkinkan</small></div><i>→</i>
+                <div><span>6</span><strong>Perbaiki & retest</strong><small>Bandingkan dengan acceptance limit</small></div>
+              </div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>2. Matriks gejala dan kemungkinan penyebab</h3>
+              <div class="diagnostic-table-wrap"><table class="comparison-table fault-table"><thead><tr><th>Gejala</th><th>Kemungkinan penyebab</th><th>Verifikasi</th><th>Tindakan</th></tr></thead><tbody><tr><td>Loss tiba-tiba tinggi</td><td>Konektor kotor/lepas, kabel tertekuk, splice rusak</td><td>Inspect, OPM, OTDR</td><td>Bersihkan, reseat, perbaiki radius, re-splice</td></tr><tr><td>Putus total</td><td>Kabel terpotong, konektor terlepas, port mati</td><td>Power check, VFL, OTDR</td><td>Isolasi segmen dan repair splice</td></tr><tr><td>Loss lebih buruk di 1550 nm</td><td>Macro-bending</td><td>Bandingkan trace 1310/1550</td><td>Hilangkan tekukan/tekanan</td></tr><tr><td>Refleksi tinggi</td><td>End-face kotor/rusak, konektor terbuka, UPC–APC mismatch</td><td>Mikroskop inspeksi, OTDR</td><td>Clean, ganti patch cord/adapter, koreksi tipe</td></tr><tr><td>Gangguan intermiten</td><td>Konektor longgar, micro-bending, enclosure kemasukan air</td><td>Visual, wiggle test terkontrol, inspeksi closure</td><td>Amankan koneksi, tata ulang, perbaiki sealing</td></tr></tbody></table></div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>3. Pembersihan konektor</h3>
+              <div class="cleaning-cycle">
+                <div><span>1</span><strong>Inspect</strong><p>Periksa end-face dengan probe microscope yang aman dan sesuai.</p></div>
+                <div class="cycle-arrow">→</div>
+                <div><span>2</span><strong>Clean</strong><p>Gunakan one-click cleaner atau metode dry/wet-dry sesuai prosedur.</p></div>
+                <div class="cycle-arrow">→</div>
+                <div><span>3</span><strong>Inspect again</strong><p>Pastikan debris hilang sebelum konektor dipasang kembali.</p></div>
+              </div>
+              <div class="callout warning"><strong>Jangan:</strong> menyentuh ferrule, meniup dengan mulut, menggunakan tisu biasa, atau membersihkan satu sisi saja. Adapter dan kedua konektor yang berpasangan harus dipertimbangkan.</div>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>4. Repair splicing pada titik putus</h3>
+              <ol class="repair-steps">
+                <li><span>01</span><div><h4>Amankan area dan layanan</h4><p>Koordinasikan outage, identifikasi kabel/core yang benar, dan pastikan sumber optik ditangani aman.</p></div></li>
+                <li><span>02</span><div><h4>Konfirmasi lokasi</h4><p>Gunakan OTDR dari kedua arah dan cocokkan jarak dengan route map, handhole, tiang, atau marker lapangan.</p></div></li>
+                <li><span>03</span><div><h4>Buka dan siapkan kabel</h4><p>Potong bagian rusak hingga kaca sehat, siapkan closure/inline joint, serta sediakan slack yang cukup.</p></div></li>
+                <li><span>04</span><div><h4>Splice dan tata</h4><p>Sambung core sesuai kode warna, pasang sleeve, tata di tray, dan perbarui label.</p></div></li>
+                <li><span>05</span><div><h4>Uji dan dokumentasikan</h4><p>Ukur loss, ambil trace OTDR, tutup closure, lalu catat before–after serta lokasi repair.</p></div></li>
+              </ol>
+            </div>
+
+            <div class="lesson-block searchable">
+              <h3>Studi kasus singkat</h3>
+              <div class="case-study">
+                <div class="case-label">KASUS</div>
+                <p>Pelanggan mengalami LOS. OPM menunjukkan tidak ada daya. OTDR dari sisi sentral menunjukkan event reflektif besar pada 2,34 km. Route map memperlihatkan handhole pada 2,30 km dan pekerjaan galian baru di dekatnya.</p>
+                <details><summary>Susun hipotesis dan tindakan</summary><div><p><strong>Hipotesis awal:</strong> kabel kemungkinan terputus atau rusak berat di sekitar handhole/galian. Selisih jarak dapat dipengaruhi IOR, slack, dan ketelitian route map.</p><p><strong>Tindakan:</strong> konfirmasi core/port, uji dari arah lawan bila tersedia, inspeksi area 2,30–2,34 km, buka closure/handhole secara aman, lakukan repair splice, lalu retest OPM dan OTDR dua arah.</p></div></details>
+              </div>
+            </div>
+          </article>
+
+          <aside class="module-aside">
+            <div class="aside-card objectives"><h3>Tujuan pembelajaran</h3><ul><li>Mengisolasi titik kerusakan.</li><li>Menganalisis loss akibat bending.</li><li>Membersihkan konektor.</li><li>Melakukan repair splicing.</li></ul></div>
+            <div class="aside-card principle-card"><h3>Prinsip diagnosis</h3><p>Jangan langsung memotong kabel. Mulai dari bukti paling sederhana dan non-destruktif, lalu persempit lokasi gangguan sebelum melakukan tindakan fisik.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- QUIZ -->
+      <section id="kuis" class="content-section section-block quiz-section" data-section-title="Kuis Kompetensi">
+        <div class="section-heading">
+          <div><span class="eyebrow">EVALUASI FORMATIF</span><h2>Kuis Kompetensi Fiber Optik</h2></div>
+          <p>Enam belas soal acak dari seluruh modul. Nilai tersimpan di perangkat ini.</p>
+        </div>
+
+        <div class="quiz-shell">
+          <div class="quiz-intro" id="quizIntro">
+            <div class="quiz-illustration"><span>?</span><i></i><i></i><i></i></div>
+            <h3>Siap menguji pemahaman?</h3>
+            <p>Kuis mencakup konsep dasar, konektor, K3, splicing, pengukuran, OTDR, dan troubleshooting.</p>
+            <div class="quiz-meta"><span>16 soal</span><span>4 pilihan</span><span>Nilai minimum 75</span></div>
+            <button class="button primary" id="startQuiz">Mulai kuis</button>
+            <small>Skor terbaik: <strong id="bestScore">Belum ada</strong></small>
+          </div>
+
+          <div class="quiz-active" id="quizActive" hidden>
+            <div class="quiz-topline"><span id="quizProgressText">Soal 1 dari 16</span><span id="quizScoreLive">Skor: 0</span></div>
+            <div class="progress-track quiz-progress"><span id="quizProgressBar"></span></div>
+            <div class="question-card">
+              <span class="question-topic" id="questionTopic">Dasar Fiber Optik</span>
+              <h3 id="questionText"></h3>
+              <div class="answer-list" id="answerList"></div>
+              <div class="answer-feedback" id="answerFeedback" hidden></div>
+              <button class="button primary next-question" id="nextQuestion" disabled>Soal berikutnya</button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="quizResult" hidden>
+            <div class="score-ring" id="scoreRing"><span id="finalScore">0</span><small>/100</small></div>
+            <h3 id="resultTitle">Hasil kuis</h3>
+            <p id="resultMessage"></p>
+            <div class="result-breakdown"><div><strong id="correctCount">0</strong><span>Benar</span></div><div><strong id="wrongCount">0</strong><span>Salah</span></div><div><strong id="resultStatus">—</strong><span>Status</span></div></div>
+            <button class="button primary" id="retryQuiz">Ulangi kuis</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- GLOSSARY -->
+      <section id="glosarium" class="content-section section-block" data-section-title="Glosarium">
+        <div class="section-heading">
+          <div><span class="eyebrow">REFERENSI ISTILAH</span><h2>Glosarium Fiber Optik</h2></div>
+          <p>Definisi ringkas istilah yang sering muncul saat instalasi dan pengujian.</p>
+        </div>
+        <div class="glossary-controls"><input type="search" id="glossarySearch" placeholder="Cari istilah…" /></div>
+        <div class="glossary-grid" id="glossaryGrid">
+          <article data-term="attenuation redaman"><h3>Attenuation</h3><p>Penurunan daya optik sepanjang jalur, biasanya dinyatakan dalam dB atau dB/km.</p></article>
+          <article data-term="backscatter hamburan balik"><h3>Backscatter</h3><p>Sebagian kecil cahaya yang terhambur kembali menuju sumber dan dimanfaatkan OTDR untuk membentuk trace.</p></article>
+          <article data-term="bending macro micro tekukan"><h3>Bending loss</h3><p>Rugi optik akibat tekukan makro atau mikro yang mengganggu pemanduan cahaya.</p></article>
+          <article data-term="cleave cleaving potong"><h3>Cleaving</h3><p>Pemotongan presisi serat agar end-face sesuai untuk proses fusion splicing.</p></article>
+          <article data-term="dead zone otdr"><h3>Dead zone</h3><p>Area setelah event reflektif tempat OTDR belum mampu membedakan atau mengukur event berikutnya secara akurat.</p></article>
+          <article data-term="dB desibel loss"><h3>dB</h3><p>Satuan logaritmik untuk menyatakan perbandingan daya, termasuk rugi optik.</p></article>
+          <article data-term="dBm power daya"><h3>dBm</h3><p>Level daya absolut relatif terhadap 1 mW.</p></article>
+          <article data-term="ferrule konektor"><h3>Ferrule</h3><p>Komponen presisi pada konektor yang memusatkan dan menopang serat.</p></article>
+          <article data-term="fusion splicing sambungan"><h3>Fusion splicing</h3><p>Penyambungan dua serat dengan melebur ujung kaca menggunakan busur listrik.</p></article>
+          <article data-term="insertion loss"><h3>Insertion loss</h3><p>Rugi daya yang timbul saat komponen dimasukkan ke dalam jalur optik.</p></article>
+          <article data-term="ior index refraction indeks bias"><h3>IOR</h3><p>Index of refraction/group index yang digunakan OTDR untuk menghitung jarak berdasarkan waktu tempuh cahaya.</p></article>
+          <article data-term="odf otb termination"><h3>OTB/ODF</h3><p>Perangkat terminasi dan distribusi serat yang menampung adapter, pigtail, serta splice tray.</p></article>
+          <article data-term="opm power meter"><h3>OPM</h3><p>Optical Power Meter untuk mengukur level daya optik pada wavelength tertentu.</p></article>
+          <article data-term="otdr reflectometer"><h3>OTDR</h3><p>Instrumen yang menganalisis event, loss, dan jarak sepanjang fiber dari cahaya hambur balik dan refleksi.</p></article>
+          <article data-term="reflectance return loss pantulan"><h3>Reflectance</h3><p>Besarnya cahaya yang dipantulkan kembali oleh suatu event, biasanya dinyatakan dalam dB bernilai negatif.</p></article>
+          <article data-term="splitter pembagi plc"><h3>Optical splitter</h3><p>Komponen pasif yang membagi daya optik dari satu atau beberapa input ke beberapa output.</p></article>
+          <article data-term="vfl visual fault locator"><h3>VFL</h3><p>Sumber laser merah tampak untuk identifikasi serat dan indikasi gangguan jarak dekat.</p></article>
+          <article data-term="wavelength panjang gelombang lambda"><h3>Wavelength</h3><p>Panjang gelombang cahaya operasi, dinyatakan dalam nanometer, misalnya 1310 atau 1550 nm.</p></article>
+        </div>
+        <p class="empty-state" id="glossaryEmpty" hidden>Tidak ada istilah yang cocok.</p>
+      </section>
+
+      <section class="references section-block">
+        <div class="section-heading compact-heading"><div><span class="eyebrow">RUJUKAN TEKNIS</span><h2>Sumber pengayaan</h2></div></div>
+        <div class="reference-list">
+          <a href="https://www.corning.com/optical-communications/worldwide/en/home/products/fiber/optical-fiber-resource-center/glossary-of-terms.html" target="_blank" rel="noopener"><strong>Corning Optical Communications</strong><span>Optical Fiber Glossary & basics</span></a>
+          <a href="https://www.flukenetworks.com/expertise/learn-about/otdr" target="_blank" rel="noopener"><strong>Fluke Networks</strong><span>OTDR and fiber testing resources</span></a>
+          <a href="https://www.exfo.com/en/resources/glossary/optical-time-domain-reflectometer-otdr/" target="_blank" rel="noopener"><strong>EXFO</strong><span>OTDR fundamentals and parameter guidance</span></a>
+          <a href="https://www.thefoa.org/tech/ColCodes.htm" target="_blank" rel="noopener"><strong>The Fiber Optic Association</strong><span>Fiber optic color codes and field guidance</span></a>
+        </div>
+        <p class="reference-disclaimer">Materi ini dirancang untuk pembelajaran. Prosedur pekerjaan nyata wajib mengikuti datasheet alat, spesifikasi proyek, standar keselamatan, dan instruksi guru/instruktur.</p>
+      </section>
+
+      <footer>
+        <div><strong>FiberLab</strong><span>Materi Teknik Jaringan Kabel & Teknik Layanan Jaringan</span></div>
+        <p>© <span id="currentYear"></span> · Media pembelajaran statis yang dapat dijalankan secara offline.</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="search-panel" id="searchPanel" hidden>
+    <div class="search-panel-head"><strong>Hasil pencarian</strong><button id="closeSearch" aria-label="Tutup hasil pencarian">×</button></div>
+    <div id="searchResults"></div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">↑</button>
+
+  <script src="app.js"></script>
+</body>
+</html>
